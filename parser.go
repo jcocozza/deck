@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"image"
 	_ "image/gif"
-	_ "image/png"
 	_ "image/jpeg"
+	_ "image/png"
 	"os"
 	"path/filepath"
 	"strings"
@@ -67,6 +67,7 @@ func ParseFile(fname string) ([]Slide, error) {
 	var slide Slide
 	var slides []Slide
 	scanner := bufio.NewScanner(f)
+	var justAddedSlide bool
 	for scanner.Scan() {
 		ln := scanner.Text()
 		ln = strings.TrimSpace(ln)
@@ -76,13 +77,20 @@ func ParseFile(fname string) ([]Slide, error) {
 			fmt.Println("skipping comment")
 			continue
 		case ln == "":
-			slides = append(slides, slide)
-			slide = NewEmptySlide()
-			fmt.Println("adding new slide")
+			if !slide.IsEmpty() {
+				slides = append(slides, slide)
+				slide = NewEmptySlide()
+				fmt.Println("adding new slide")
+				justAddedSlide = true
+			} else if justAddedSlide {
+				continue
+			}
 		case strings.HasPrefix(ln, PREFIX_Title):
+			justAddedSlide = false
 			slide.Title = strings.TrimPrefix(ln, PREFIX_Title)
 			fmt.Printf("added title: %s\n", slide.Title)
 		case strings.HasPrefix(ln, PREFIX_File):
+			justAddedSlide = false
 			path := strings.TrimPrefix(ln, PREFIX_File)
 			switch filepath.Ext(path) {
 			case ".png", ".jpeg", ".gif": // TODO: actual gif support one day?
@@ -92,6 +100,7 @@ func ParseFile(fname string) ([]Slide, error) {
 					continue
 				}
 				slide.Image = img
+				justAddedSlide = false
 			case ".txt", ".py":
 				lines, err := ReadTxt(path)
 				if err != nil {
@@ -107,10 +116,13 @@ func ParseFile(fname string) ([]Slide, error) {
 
 			}
 		default:
+			justAddedSlide = false
 			fmt.Printf("[slide %s] adding to slide body %s\n", slide.Title, ln)
 			slide.Content = append(slide.Content, ln)
 		}
 	}
-	slides = append(slides, slide)
+	if !slide.IsEmpty() {
+		slides = append(slides, slide)
+	}
 	return slides, nil
 }

@@ -21,7 +21,11 @@ It also contains files!
 type Slide struct {
 	Title   string
 	Content []string
-	Image image.Image
+	Image   image.Image
+}
+
+func (s *Slide) IsEmpty() bool {
+	return s.Title == "" && len(s.Content) == 0 && s.Image == nil
 }
 
 var slides = []Slide{

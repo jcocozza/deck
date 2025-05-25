@@ -85,7 +85,7 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 
 func Render(slides []Slide) {
 	ebiten.SetWindowSize(640, 480)
-	ebiten.SetWindowTitle("Hello, World!")
+	ebiten.SetWindowTitle("TODO: <Think of some cool tool name>")
 	g := &Game{
 		Slides: slides,
 		curr: ebiten.NewImage(640,480),
