@@ -22,6 +22,7 @@ type Slide struct {
 	Title   string
 	Content []string
 	Image   image.Image
+	Theme   ThemeColors
 }
 
 func (s *Slide) IsEmpty() bool {

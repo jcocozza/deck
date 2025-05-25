@@ -10,9 +10,8 @@ import (
 	"golang.org/x/image/math/fixed"
 )
 
-// TODO: inject background color
-func fill(img *image.RGBA) {
-	draw.Draw(img, img.Bounds(), &image.Uniform{color.White}, image.Point{}, draw.Src)
+func fill(img *image.RGBA, bgc color.Color) {
+	draw.Draw(img, img.Bounds(), &image.Uniform{bgc}, image.Point{}, draw.Src)
 }
 
 type Element interface {
@@ -25,26 +24,27 @@ type Element interface {
 type TextElement struct {
 	Content string
 	lines   []string
+	color color.Color
 
 	face font.Face
 }
 
-func NewTextElement(content string, face font.Face, maxWidth int) *TextElement {
+func NewTextElement(content string, face font.Face, color color.Color, maxWidth int) *TextElement {
 	lines := WrapText(content, face, maxWidth)
 	return &TextElement{
 		Content: content,
 		lines:   lines,
 		face:    face,
+		color: color,
 	}
 }
 
 func (e *TextElement) Draw(img *image.RGBA, x, y int) {
-	col := color.Black
 	adjY := y
 	for _, line := range e.lines {
 		d := &font.Drawer{
 			Dst:  img,
-			Src:  image.NewUniform(col),
+			Src:  image.NewUniform(e.color),
 			Face: e.face,
 			Dot:  fixed.P(x, adjY),
 		}
@@ -78,7 +78,7 @@ func (e *ImageElement) Height() int {
 
 func Draw(width, height int, slide Slide) image.Image {
 	img := image.NewRGBA(image.Rect(0, 0, width, height))
-	fill(img)
+	fill(img, slide.Theme.Background)
 
 	xPadding := 60
 	yPadding := 60
@@ -86,10 +86,10 @@ func Draw(width, height int, slide Slide) image.Image {
 
 	// set up content
 	elms := []Element{
-		NewTextElement(slide.Title, basicfont.Face7x13, width-(2*xPadding)),
+		NewTextElement(slide.Title, basicfont.Face7x13, slide.Theme.Foreground, width-(2*xPadding)),
 	}
 	for _, line := range slide.Content {
-		elms = append(elms, NewTextElement(line, basicfont.Face7x13, width-(2*xPadding)))
+		elms = append(elms, NewTextElement(line, basicfont.Face7x13, slide.Theme.Foreground, width-(2*xPadding)))
 	}
 	if slide.Image != nil {
 		elms = append(elms, &ImageElement{Img: slide.Image})

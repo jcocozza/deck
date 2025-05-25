@@ -21,6 +21,7 @@ const (
 func NewEmptySlide() Slide {
 	return Slide{
 		//Theme: DefaultTheme,
+		Theme: DefaultTheme,
 	}
 }
 
@@ -64,7 +65,7 @@ func ParseFile(fname string) ([]Slide, error) {
 	}
 	defer f.Close()
 
-	var slide Slide
+	var slide = NewEmptySlide()
 	var slides []Slide
 	scanner := bufio.NewScanner(f)
 	var justAddedSlide bool
@@ -107,7 +108,7 @@ func ParseFile(fname string) ([]Slide, error) {
 					slide.Content = append(slide.Content, fmt.Sprintf("ERR: unable to read %s. Err is: %s", path, err.Error()))
 					continue
 				}
-				slide.Content = append(slide.Content, "```")
+				slide.Content = append(slide.Content, fmt.Sprintf("```{%s}", path))
 				slide.Content = append(slide.Content, lines...)
 				slide.Content = append(slide.Content, "```")
 			default:
