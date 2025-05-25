@@ -63,7 +63,8 @@ func (g *Game) Update() error {
 
 	// only redraw the image if we have changed slides
 	if g.redraw {
-		img := Draw(g.width, g.height, g.Slides[g.current])
+		img, err := Draw(g.width, g.height, g.Slides[g.current])
+		if err != nil { return err }
 		g.curr = ebiten.NewImageFromImage(img)
 		g.redraw = false
 	}

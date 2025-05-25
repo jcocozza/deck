@@ -1,6 +1,10 @@
 package main
 
-import "image"
+import (
+	"image"
+
+	"golang.org/x/image/font/opentype"
+)
 
 /*
 sample presentation file:
@@ -23,6 +27,7 @@ type Slide struct {
 	Content []string
 	Image   image.Image
 	Theme   ThemeColors
+	Font *opentype.Font //basicfont.Face7x13
 }
 
 func (s *Slide) IsEmpty() bool {

@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-func ReadTheme(path string) (*Theme, error) {
+func readTheme(path string) (*Theme, error) {
 	fbytes, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
@@ -18,6 +18,14 @@ func ReadTheme(path string) (*Theme, error) {
 		return nil, err
 	}
 	return &t, nil
+}
+
+func ReadTheme(path string) (ThemeColors, error) {
+	theme, err := readTheme(path)
+	if err != nil {
+		return ThemeColors{}, err
+	}
+	return ThemeToThemeColors(theme)
 }
 
 func HexToRGBA(hex string) (color.Color, error) {

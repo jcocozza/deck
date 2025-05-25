@@ -1,12 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"image"
 	"image/color"
 	"image/draw"
 
 	"golang.org/x/image/font"
-	"golang.org/x/image/font/basicfont"
 	"golang.org/x/image/math/fixed"
 )
 
@@ -42,6 +42,8 @@ func NewTextElement(content string, face font.Face, color color.Color, maxWidth 
 func (e *TextElement) Draw(img *image.RGBA, x, y int) {
 	adjY := y
 	for _, line := range e.lines {
+		fmt.Println("drawing line: ", line)
+		fmt.Println("drawing line: ", e.face.Metrics())
 		d := &font.Drawer{
 			Dst:  img,
 			Src:  image.NewUniform(e.color),
@@ -76,7 +78,7 @@ func (e *ImageElement) Height() int {
 }
 
 
-func Draw(width, height int, slide Slide) image.Image {
+func Draw(width, height int, slide Slide) (image.Image, error) {
 	img := image.NewRGBA(image.Rect(0, 0, width, height))
 	fill(img, slide.Theme.Background)
 
@@ -85,11 +87,21 @@ func Draw(width, height int, slide Slide) image.Image {
 	y := 0 + yPadding
 
 	// set up content
+	titleff, err := FontFace(slide.Font, 18)
+	if err != nil {
+		return nil, err
+	}
+	defer titleff.Close()
+	textff, err := FontFace(slide.Font, 14)
+	if err != nil {
+		return nil, err
+	}
+	defer textff.Close()
 	elms := []Element{
-		NewTextElement(slide.Title, basicfont.Face7x13, slide.Theme.Foreground, width-(2*xPadding)),
+		NewTextElement(slide.Title, titleff, slide.Theme.Heading, width-(2*xPadding)),
 	}
 	for _, line := range slide.Content {
-		elms = append(elms, NewTextElement(line, basicfont.Face7x13, slide.Theme.Foreground, width-(2*xPadding)))
+		elms = append(elms, NewTextElement(line, textff, slide.Theme.Text, width-(2*xPadding)))
 	}
 	if slide.Image != nil {
 		elms = append(elms, &ImageElement{Img: slide.Image})
@@ -106,5 +118,5 @@ func Draw(width, height int, slide Slide) image.Image {
 		elm.Draw(img, xDraw, y)
 		y += elm.Height()
 	}
-	return img
+	return img, nil
 }

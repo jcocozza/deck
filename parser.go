@@ -10,6 +10,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"golang.org/x/image/font/opentype"
 )
 
 const (
@@ -18,10 +20,10 @@ const (
 	PREFIX_File    = "@"
 )
 
-func NewEmptySlide() Slide {
+func NewEmptySlide(theme ThemeColors, font *opentype.Font) Slide {
 	return Slide{
-		//Theme: DefaultTheme,
-		Theme: DefaultTheme,
+		Theme: theme,
+		Font:  font,
 	}
 }
 
@@ -58,14 +60,14 @@ func ReadTxt(path string) ([]string, error) {
 // - use @ to import and display a file
 //   - images are displayed as images
 //   - text will be imported into the slide
-func ParseFile(fname string) ([]Slide, error) {
+func ParseFile(fname string, themeColors ThemeColors, font *opentype.Font) ([]Slide, error) {
 	f, err := os.Open(fname)
 	if err != nil {
 		return nil, err
 	}
 	defer f.Close()
 
-	var slide = NewEmptySlide()
+	var slide = NewEmptySlide(themeColors, font)
 	var slides []Slide
 	scanner := bufio.NewScanner(f)
 	var justAddedSlide bool
@@ -80,7 +82,7 @@ func ParseFile(fname string) ([]Slide, error) {
 		case ln == "":
 			if !slide.IsEmpty() {
 				slides = append(slides, slide)
-				slide = NewEmptySlide()
+				slide = NewEmptySlide(themeColors, font)
 				fmt.Println("adding new slide")
 				justAddedSlide = true
 			} else if justAddedSlide {
