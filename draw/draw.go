@@ -25,23 +25,36 @@ type ImageItem interface {
 // a TextImageItem is a single single piece of text to be drawn
 // this is not necessarily 1 line, it can be as small as a single char
 type TextImageItem struct {
-	Text string
+	Text  string
 	Color color.Color
-	Face font.Face
+	Face  font.Face
 }
 
 func (i *TextImageItem) Draw(img *image.RGBA, x, y int) {
 	d := &font.Drawer{
-		Dst: img,
-		Src: image.NewUniform(i.Color),
+		Dst:  img,
+		Src:  image.NewUniform(i.Color),
 		Face: i.Face,
-		Dot: fixed.P(x,y),
+		Dot:  fixed.P(x, y),
 	}
 	d.DrawString(i.Text) // TODO: beautify text
 }
 
 func (i *TextImageItem) Height() int {
 	return i.Face.Metrics().Height.Ceil()
+}
+
+type EmbededImageItem struct {
+	Img image.Image
+}
+
+func (i *EmbededImageItem) Draw(img *image.RGBA, x, y int) {
+	offset := image.Pt(x, y)
+	bounds := i.Img.Bounds().Add(offset)
+	draw.Draw(img, bounds, i.Img, image.Point{}, draw.Over)
+}
+func (i *EmbededImageItem) Height() int {
+	return i.Img.Bounds().Dy()
 }
 
 type Drawer interface {
@@ -51,23 +64,21 @@ type Drawer interface {
 func NewDrawer(theme Theme, font *opentype.Font) Drawer {
 	return &DrawerImpl{
 		theme: theme,
-		font: font,
-		b: NewBeutifier(font),
+		font:  font,
+		b:     NewBeutifier(font),
 	}
 }
 
 type DrawerImpl struct {
-	b Beautifier
+	b     Beautifier
 	theme Theme
-	font *opentype.Font
+	font  *opentype.Font
 }
-
 
 func generateItems(c *parser.Content, b Beautifier, t Theme) []ImageItem {
 	items := []ImageItem{}
-
 	if c.Img != nil {
-		// TODO: image item
+		items = append(items, &EmbededImageItem{Img: c.Img})
 	}
 	if len(c.Text) > 0 {
 		i := b.Beautify(c.Text, c.T, c.Level, t)

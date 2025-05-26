@@ -3,6 +3,7 @@ package parser
 import (
 	"fmt"
 	"image"
+	"path/filepath"
 	"strings"
 )
 
@@ -89,10 +90,30 @@ func (p *ParserImpl) Parse(lines []lexline) []*Content {
 		case comment:
 			continue
 		case file: // a file is always a leaf node
+			path := strings.TrimPrefix(line.text, prefixes[file])
+			var img image.Image
+			var lines []string
+			var err error
+
+			switch filepath.Ext(path) {
+			case ".png", ".jpg", ".gif":
+				img, err = ReadImage(path)
+				if err != nil {
+					lines = []string{fmt.Sprintf("ERR: unable to read %s. Err is: %s", path, err.Error())}
+				}
+
+			case ".txt", ".py":
+				lines, err = ReadTxt(path)
+				if err != nil {
+					lines = []string{fmt.Sprintf("ERR: unable to read %s. Err is: %s", path, err.Error())}
+				}
+			default:
+				lines = []string{fmt.Sprintf("ERR: unsupported file: %s", path)}
+			}
 			h := &Content{
 				T: File,
-				Text: []string{"TODO: add file contents here: "+ line.text},
-				Img: nil,
+				Text: lines,
+				Img: img,
 				Level: curr.Level+1,
 			}
 			curr.Children = append(curr.Children, h)

@@ -1,13 +1,20 @@
 package draw
 
 import (
+	"image"
+	"os"
 	"strings"
+
+	_ "image/gif"
+	_ "image/jpeg"
+	_ "image/png"
 
 	"golang.org/x/image/font"
 )
 
 const tabSize = 4
 
+// TODO: currently this does nothing
 func WrapText(text string, face font.Face, maxWidth int) []string {
 	// TODO: this is just an approximation
 	tabReplacement := strings.Repeat(" ", tabSize)
@@ -42,4 +49,14 @@ func WrapText(text string, face font.Face, maxWidth int) []string {
 		lines = append(lines, builder.String())
 	}
 	return lines
+}
+
+func LoadImageFromFile(path string) (image.Image, error) {
+	f, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+	img, _, err := image.Decode(f)
+	return img, err
 }
