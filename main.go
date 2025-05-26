@@ -53,7 +53,7 @@ func main() {
 		panic(err)
 	}
 
-	fnt, err := ReadFont("/usr/share/fonts/opentype/urw-base35/P052-Roman.otf")//fnt := readTestFont()
+	fnt, err := draw.ReadFont("/usr/share/fonts/opentype/urw-base35/P052-Roman.otf")//fnt := readTestFont()
 	if err != nil {
 		panic(err)
 	}

@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"fmt"
 	"strings"
 	"unicode"
 )
@@ -13,14 +14,27 @@ const (
 	comment
 	file
 	emptyLine
+	emptySlide
 	text
 	list
 )
+
+var prefixNames = [...]string{
+	title : "title",
+	subtitle : "subtitle",
+	comment: "comment",
+	file: "file",
+	emptyLine: "emptyLine",
+	emptySlide: "emptySlide",
+	text: "text",
+	list: "list",
+}
 
 var prefixes = [...]string{
 	title:    "# ",
 	subtitle: "## ",
 	comment:  "// ",
+	emptySlide: "\\",
 	file:     "@",
 }
 
@@ -45,6 +59,10 @@ func haslstprefix(line string) bool {
 type lexline struct {
 	t    linetype
 	text string
+}
+
+func (l *lexline) String() string {
+	return fmt.Sprintf("[%s %s]", prefixNames[l.t], l.text)
 }
 
 type Lexer interface {
@@ -72,6 +90,8 @@ func (l *LexerImpl) lexln(line string) lexline {
 		return lexline{t: file, text: line}
 	case len(line) == 0:
 		return lexline{t: emptyLine, text: line}
+	case strings.HasPrefix(line, prefixes[emptySlide]):
+		return lexline{t: emptySlide, text: ""}
 	case haslstprefix(line):
 		return lexline{t: list, text: line}
 	default:

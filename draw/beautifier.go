@@ -1,7 +1,6 @@
 package draw
 
 import (
-	"fmt"
 	"image/color"
 	"presentation/parser"
 	"regexp"
@@ -133,9 +132,6 @@ func (b *BeautifierImpl) Beautify(text []string, t parser.ContentType, level int
 			items = append(items, item)
 		}
 		items = append(items, &NewLineItem{Face: face})
-	}
-	for _, item := range items {
-		fmt.Println(item)
 	}
 	return items
 }

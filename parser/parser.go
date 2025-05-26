@@ -33,6 +33,7 @@ type Content struct {
 	Level    int
 }
 
+// for debugging
 func (c *Content) String() string {
 	tabs := strings.Repeat("\t", c.Level)
 	txt := strings.Join(c.Text, ", ")
@@ -122,10 +123,20 @@ func (p *ParserImpl) Parse(lines []lexline) []*Content {
 			curr.Children = append(curr.Children, h)
 			lastType = file
 		case emptyLine:
+			if lastType == emptyLine {
+				continue
+			}
+			if curr != nil && currRoot != nil {
+				curr = nil
+				root = append(root, currRoot)
+				currRoot = nil
+				lastType = emptyLine
+			}
+		case emptySlide:
 			curr = nil
-			root = append(root, currRoot)
+			//root = append(root, currRoot)
 			currRoot = nil
-			lastType = emptyLine
+			lastType = emptySlide
 		case text: // text is always a leaf node
 			h := &Content{
 				T:     Text,

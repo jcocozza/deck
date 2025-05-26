@@ -2,6 +2,7 @@ package parser
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 )
 
@@ -22,6 +23,9 @@ func Parse(lines []string) []*Content {
 	lexer := NewLexer()
 	parser := NewParser()
 	ll := lexer.Lex(lines)
+	for _, l := range ll {
+		fmt.Println(l.String())
+	}
 	cnts := parser.Parse(ll)
 	return cnts
 }
@@ -37,21 +41,3 @@ func ReadAndParse(path string) ([]*Content, error) {
 	cnts := parser.Parse(ll)
 	return cnts, nil
 }
-
-//func ReadAndParse(path string) ([]SlideTokens, error) {
-//	lexer := NewLexer()
-//	parser := NewParser()
-//	beautifier := NewBeautifier(DefaultTheme)
-//	lines, err := readlines(path)
-//	if err != nil {
-//		return nil, err
-//	}
-//	ll := lexer.Lex(lines)
-//	cnts := parser.Parse(ll)
-//	//for _, c := range cnts {
-//	//	fmt.Println(c.String())
-//	//}
-//	tokens := beautifier.Beautify(cnts)
-//	fmt.Println(tokens)
-//	return tokens, nil
-//}
