@@ -58,7 +58,9 @@ func NewLexer() Lexer {
 type LexerImpl struct{}
 
 func (l *LexerImpl) lexln(line string) lexline {
-	line = strings.TrimSpace(line)
+	//line = strings.TrimSpace(line)
+	// only trim to the right to support user enabled indentation
+	line = strings.TrimRightFunc(line, unicode.IsSpace)
 	switch {
 	case strings.HasPrefix(line, prefixes[title]):
 		return lexline{t: title, text: line}
