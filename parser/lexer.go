@@ -63,9 +63,9 @@ func (l *LexerImpl) lexln(line string) lexline {
 	line = strings.TrimRightFunc(line, unicode.IsSpace)
 	switch {
 	case strings.HasPrefix(line, prefixes[title]):
-		return lexline{t: title, text: line}
+		return lexline{t: title, text: strings.TrimPrefix(line, prefixes[title])}
 	case strings.HasPrefix(line, prefixes[subtitle]):
-		return lexline{t: subtitle, text: line}
+		return lexline{t: subtitle, text: strings.TrimPrefix(line, prefixes[subtitle])}
 	case strings.HasPrefix(line, prefixes[comment]):
 		return lexline{t: comment, text: line}
 	case strings.HasPrefix(line, prefixes[file]):

@@ -1,16 +1,21 @@
-Presentation
+# <tool name>
+Write your presentations as plain text files.
+Each paragraph is its own slide.
 
-A presentation tool inspired by https://tools.suckless.org/sent/.
-Same basic syntax with just a bit more fluff on top.
+<tool name> is inspired by https://tools.suckless.org/sent/.
+It has much of the same basic syntax. But has some more fluff on top.
 
-Write your presentations a plain text files.
-
-Features:
+# Features:
+- works well with markdown files
+    - use "# " for headers, "## " for subheaders
 - supports pptx themes and fonts
-- import images, and even other files into your deck
+- import images, and even other files into your deck (simply reference them with "@" on their own line)
 - relatively robust. will accept most text files (try turing your code into a presentation)
 - pipe in input, read from more then one file at a time.
 
-Coming Soon:
-see TODO
+# Coming Soon:
+@TODO
 
+# Finally:
+This README is actually a presentation.
+After you've built <tool name> just run <tool name> README to see it.

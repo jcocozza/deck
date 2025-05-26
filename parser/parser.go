@@ -7,7 +7,6 @@ import (
 	"strings"
 )
 
-
 type ContentType int
 
 const (
@@ -20,18 +19,18 @@ const (
 
 var cts = [...]string{
 	Paragraph: "paragraph",
-	Header: "header",
-	Text: "text",
-	List: "list",
-	File: "file",
+	Header:    "header",
+	Text:      "text",
+	List:      "list",
+	File:      "file",
 }
 
 type Content struct {
-	T      ContentType
-	Text   []string
-	Img    image.Image // will be null mostly
+	T        ContentType
+	Text     []string
+	Img      image.Image // will be null mostly
 	Children []*Content
-	Level  int
+	Level    int
 }
 
 func (c *Content) String() string {
@@ -71,8 +70,8 @@ func (p *ParserImpl) Parse(lines []lexline) []*Content {
 		switch line.t {
 		case title:
 			h := &Content{
-				T: Header,
-				Text: []string{line.text},
+				T:     Header,
+				Text:  []string{line.text},
 				Level: 1,
 			}
 			currRoot.Children = append(currRoot.Children, h)
@@ -80,8 +79,8 @@ func (p *ParserImpl) Parse(lines []lexline) []*Content {
 			lastType = title
 		case subtitle:
 			h := &Content{
-				T: Header,
-				Text: []string{line.text},
+				T:     Header,
+				Text:  []string{line.text},
 				Level: 2,
 			}
 			curr.Children = append(curr.Children, h)
@@ -102,22 +101,23 @@ func (p *ParserImpl) Parse(lines []lexline) []*Content {
 					lines = []string{fmt.Sprintf("ERR: unable to read %s. Err is: %s", path, err.Error())}
 				}
 			case ".txt", ".py":
+				fallthrough
+			default:
+				//lines = []string{fmt.Sprintf("ERR: unsupported file: %s", path)}
 				fLines, err := ReadTxt(path)
 				if err != nil {
 					lines = []string{fmt.Sprintf("ERR: unable to read %s. Err is: %s", path, err.Error())}
-	 			} else {
+				} else {
 					lines = []string{fmt.Sprintf("```{%s}", path)}
 					lines = append(lines, fLines...)
 					lines = append(lines, "```")
 				}
-			default:
-				lines = []string{fmt.Sprintf("ERR: unsupported file: %s", path)}
 			}
 			h := &Content{
-				T: File,
-				Text: lines,
-				Img: img,
-				Level: curr.Level+1,
+				T:     File,
+				Text:  lines,
+				Img:   img,
+				Level: curr.Level + 1,
 			}
 			curr.Children = append(curr.Children, h)
 			lastType = file
@@ -128,9 +128,9 @@ func (p *ParserImpl) Parse(lines []lexline) []*Content {
 			lastType = emptyLine
 		case text: // text is always a leaf node
 			h := &Content{
-				T: Text,
-				Text: []string{line.text},
-				Level: curr.Level+1,
+				T:     Text,
+				Text:  []string{line.text},
+				Level: curr.Level + 1,
 			}
 			curr.Children = append(curr.Children, h)
 			lastType = text
@@ -142,9 +142,9 @@ func (p *ParserImpl) Parse(lines []lexline) []*Content {
 			}
 			// otherwise start a new list
 			h := &Content{
-				T: List,
-				Text: []string{line.text},
-				Level: curr.Level+1,
+				T:     List,
+				Text:  []string{line.text},
+				Level: curr.Level + 1,
 			}
 			curr.Children = append(curr.Children, h)
 			curr = h
@@ -157,4 +157,3 @@ func (p *ParserImpl) Parse(lines []lexline) []*Content {
 	}
 	return root
 }
-
