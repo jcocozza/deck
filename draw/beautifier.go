@@ -1,10 +1,12 @@
 package draw
 
 import (
+	"fmt"
 	"image/color"
 	"presentation/parser"
 	"regexp"
 
+	"golang.org/x/image/font"
 	"golang.org/x/image/font/opentype"
 )
 
@@ -36,6 +38,7 @@ func Color(t parser.ContentType, level int, theme Theme) color.Color {
 
 type Beautifier interface {
 	Beautify(text []string, t parser.ContentType, level int, theme Theme) []ImageItem
+	Face(size int) font.Face
 }
 
 func NewBeutifier(f *opentype.Font) Beautifier {
@@ -80,8 +83,16 @@ func tokenize(str string, re *regexp.Regexp, matchCol color.Color, defaultCol co
 	return tokens
 }
 
-type BeautifierImpl struct{
+type BeautifierImpl struct {
 	f *opentype.Font
+}
+
+func (b *BeautifierImpl) Face(size int) font.Face {
+	face, err := FontFace(b.f, size)
+	if err != nil {
+		panic(err)
+	}
+	return face
 }
 
 func (b *BeautifierImpl) Beautify(text []string, t parser.ContentType, level int, theme Theme) []ImageItem {
@@ -115,12 +126,16 @@ func (b *BeautifierImpl) Beautify(text []string, t parser.ContentType, level int
 		size = 14
 	}
 	for _, str := range text {
-		tokens := tokenize(str, regexp_link, theme.Link, defaultCol) // TODO: sizes should NOT be hardcoded
+		tokens := tokenize(str, regexp_link, theme.Link, defaultCol)
+		face := b.Face(size)
 		for _, tkn := range tokens {
-			face, err := FontFace(b.f, size)
-			if err != nil {panic(err)}
-			items = append(items, &TextImageItem{Text: tkn.Text, Color: tkn.Color, Face: face})
+			item := &TextImageItem{Text: tkn.Text, Color: tkn.Color, Face: face}
+			items = append(items, item)
 		}
+		items = append(items, &NewLineItem{Face: face})
+	}
+	for _, item := range items {
+		fmt.Println(item)
 	}
 	return items
 }

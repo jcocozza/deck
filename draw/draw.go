@@ -20,6 +20,7 @@ type ImageItem interface {
 	Draw(img *image.RGBA, x, y int)
 	// height in pixels of the item
 	Height() int
+	Width() int
 }
 
 // a TextImageItem is a single single piece of text to be drawn
@@ -44,6 +45,18 @@ func (i *TextImageItem) Height() int {
 	return i.Face.Metrics().Height.Ceil()
 }
 
+func (i *TextImageItem) Width() int {
+	return font.MeasureString(i.Face, i.Text).Ceil()
+}
+
+type NewLineItem struct{ Face font.Face }
+
+func (i *NewLineItem) Draw(img *image.RGBA, x, y int) {}
+func (i *NewLineItem) Height() int {
+	return i.Face.Metrics().Height.Ceil()
+}
+func (i *NewLineItem) Width() int { return 0 }
+
 type EmbededImageItem struct {
 	Img image.Image
 }
@@ -55,6 +68,10 @@ func (i *EmbededImageItem) Draw(img *image.RGBA, x, y int) {
 }
 func (i *EmbededImageItem) Height() int {
 	return i.Img.Bounds().Dy()
+}
+
+func (i *EmbededImageItem) Width() int {
+	return i.Img.Bounds().Dx()
 }
 
 type Drawer interface {
@@ -79,6 +96,8 @@ func generateItems(c *parser.Content, b Beautifier, t Theme) []ImageItem {
 	items := []ImageItem{}
 	if c.Img != nil {
 		items = append(items, &EmbededImageItem{Img: c.Img})
+		// new to add a newline after image to leave room for things
+		items = append(items, &NewLineItem{Face: b.Face(12)}) // TODO: font size should not be hard coded
 	}
 	if len(c.Text) > 0 {
 		i := b.Beautify(c.Text, c.T, c.Level, t)
@@ -96,20 +115,28 @@ func (d *DrawerImpl) DrawSlide(width int, height int, s *parser.Content) image.I
 	fill(img, d.theme.Background)
 
 	xPad := 60
+	xShift := 0
 	yPad := 60
-	y := 0 + yPad
+	yshift := 0
 
 	iItems := generateItems(s, d.b, d.theme)
 	for _, item := range iItems {
 		var xDraw int
 		switch e := item.(type) {
+		case *NewLineItem:
+			yshift += item.Height()
+			xShift = 0
+			continue // we don't draw newline items
 		case *TextImageItem:
 			xDraw = xPad
-		case *EmbededImageItem:
-			xDraw = (width - e.Img.Bounds().Dx()) /2
+			item.Draw(img, xDraw+xShift, yshift+yPad)
+			xShift += item.Width()
+		case *EmbededImageItem: // i think that there isn't a new line being added after image items
+			xDraw = (width - e.Img.Bounds().Dx()) / 2 //center the image
+			item.Draw(img, xDraw+xShift, yshift+yPad)
+			yshift += item.Height()
+			xShift += item.Width()
 		}
-		item.Draw(img, xDraw, y)
-		y += item.Height()
 	}
 
 	return img

@@ -1,5 +1,6 @@
 - support logo (upper right hand corner)
 - slide numbers (lower right hand corner)
+- correctly wrap lines
 - write to pptx
 - left, center and right align images should be easy to support
     - maybe prefix can be @[l/c/r]@path/to/file
