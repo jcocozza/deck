@@ -134,7 +134,6 @@ func (p *ParserImpl) Parse(lines []lexline) []*Content {
 			}
 		case emptySlide:
 			curr = nil
-			//root = append(root, currRoot)
 			currRoot = nil
 			lastType = emptySlide
 		case text: // text is always a leaf node
