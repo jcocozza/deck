@@ -1,0 +1,8 @@
+- support logo (upper right hand corner)
+- slide numbers (lower right hand corner)
+- write to pptx
+- accept from stdin
+- improve parser - get better coloring
+- cli
+ - allow theme specification (via path)
+ - allow font specification (via path)
