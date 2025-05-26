@@ -4,6 +4,8 @@ import (
 	"image/color"
 	"presentation/parser"
 	"regexp"
+
+	"golang.org/x/image/font/opentype"
 )
 
 var (
@@ -62,8 +64,8 @@ type Beautifier interface {
 	Beautify(text []string, t parser.ContentType, level int, theme Theme) []ImageItem
 }
 
-func NewBeutifier() Beautifier {
-	return &BeautifierImpl{}
+func NewBeutifier(f *opentype.Font) Beautifier {
+	return &BeautifierImpl{f: f}
 }
 
 type textColor struct {
@@ -104,7 +106,9 @@ func tokenize(str string, re *regexp.Regexp, matchCol color.Color, defaultCol co
 	return tokens
 }
 
-type BeautifierImpl struct{}
+type BeautifierImpl struct{
+	f *opentype.Font
+}
 
 func (b *BeautifierImpl) Beautify(text []string, t parser.ContentType, level int, theme Theme) []ImageItem {
 	items := []ImageItem{}
@@ -139,7 +143,7 @@ func (b *BeautifierImpl) Beautify(text []string, t parser.ContentType, level int
 	for _, str := range text {
 		tokens := tokenize(str, regexp_link, theme.Link, defaultCol) // TODO: sizes should NOT be hardcoded
 		for _, tkn := range tokens {
-			face, err := FontFace(readTestFont(), size)
+			face, err := FontFace(b.f, size)
 			if err != nil {panic(err)}
 			items = append(items, &TextImageItem{Text: tkn.Text, Color: tkn.Color, Face: face})
 		}

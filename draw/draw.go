@@ -52,7 +52,7 @@ func NewDrawer(theme Theme, font *opentype.Font) Drawer {
 	return &DrawerImpl{
 		theme: theme,
 		font: font,
-		b: NewBeutifier(),
+		b: NewBeutifier(font),
 	}
 }
 
