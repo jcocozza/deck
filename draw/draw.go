@@ -15,6 +15,9 @@ func fill(img *image.RGBA, bgc color.Color) {
 	draw.Draw(img, img.Bounds(), &image.Uniform{bgc}, image.Point{}, draw.Src)
 }
 
+// an ImageItem is a chunk of data that is to be drawn on the passed image
+// it is _not_ necessarily 1 one line
+//  e.g an image or a colored piece of text
 type ImageItem interface {
 	// apply item to passed image
 	Draw(img *image.RGBA, x, y int)
@@ -131,7 +134,7 @@ func (d *DrawerImpl) DrawSlide(width int, height int, s *parser.Content) image.I
 			xDraw = xPad
 			item.Draw(img, xDraw+xShift, yshift+yPad)
 			xShift += item.Width()
-		case *EmbededImageItem: // i think that there isn't a new line being added after image items
+		case *EmbededImageItem:
 			xDraw = (width - e.Img.Bounds().Dx()) / 2 //center the image
 			item.Draw(img, xDraw+xShift, yshift+yPad)
 			yshift += item.Height()
