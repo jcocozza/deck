@@ -18,6 +18,14 @@ func readlines(path string) ([]string, error) {
 	return lines, scanner.Err()
 }
 
+func Parse(lines []string) []*Content {
+	lexer := NewLexer()
+	parser := NewParser()
+	ll := lexer.Lex(lines)
+	cnts := parser.Parse(ll)
+	return cnts
+}
+
 func ReadAndParse(path string) ([]*Content, error) {
 	lexer := NewLexer()
 	parser := NewParser()

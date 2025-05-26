@@ -1,7 +1,13 @@
 - support logo (upper right hand corner)
 - slide numbers (lower right hand corner)
 - write to pptx
-- accept from stdin
+- left, center and right align images should be easy to support
+    - maybe prefix can be @[l/c/r]@path/to/file
+    - but also leave default option of @path/to/file
 - cli
     - allow theme specification (via path)
     - allow font specification (via path)
+- Terminal mode?
+    - support terminal presentations/piping to stdout
+- what to do when nothing passed in
+    - i think this should generate an empty slide show with one slide

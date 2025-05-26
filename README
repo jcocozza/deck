@@ -1,0 +1,16 @@
+Presentation
+
+A presentation tool inspired by https://tools.suckless.org/sent/.
+Same basic syntax with just a bit more fluff on top.
+
+Write your presentations a plain text files.
+
+Features:
+- supports pptx themes and fonts
+- import images, and even other files into your deck
+- relatively robust. will accept most text files (try turing your code into a presentation)
+- pipe in input, read from more then one file at a time.
+
+Coming Soon:
+see TODO
+
