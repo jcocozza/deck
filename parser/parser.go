@@ -101,11 +101,14 @@ func (p *ParserImpl) Parse(lines []lexline) []*Content {
 				if err != nil {
 					lines = []string{fmt.Sprintf("ERR: unable to read %s. Err is: %s", path, err.Error())}
 				}
-
 			case ".txt", ".py":
-				lines, err = ReadTxt(path)
+				fLines, err := ReadTxt(path)
 				if err != nil {
 					lines = []string{fmt.Sprintf("ERR: unable to read %s. Err is: %s", path, err.Error())}
+	 			} else {
+					lines = []string{fmt.Sprintf("```{%s}", path)}
+					lines = append(lines, fLines...)
+					lines = append(lines, "```")
 				}
 			default:
 				lines = []string{fmt.Sprintf("ERR: unsupported file: %s", path)}

@@ -101,7 +101,14 @@ func (d *DrawerImpl) DrawSlide(width int, height int, s *parser.Content) image.I
 
 	iItems := generateItems(s, d.b, d.theme)
 	for _, item := range iItems {
-		item.Draw(img, xPad, y)
+		var xDraw int
+		switch e := item.(type) {
+		case *TextImageItem:
+			xDraw = xPad
+		case *EmbededImageItem:
+			xDraw = (width - e.Img.Bounds().Dx()) /2
+		}
+		item.Draw(img, xDraw, y)
 		y += item.Height()
 	}
 
