@@ -48,12 +48,13 @@ func main() {
 		lines = flines
 	}
 
-	theme, err := draw.ReadTheme("ppt/unpacked/ppt/theme/theme1.xml") //theme := draw.DefaultTheme
+	theme, err := draw.ReadTheme("ppt/unpacked/ppt/theme/theme1.xml")
+	//theme := draw.DefaultTheme
 	if err != nil {
 		panic(err)
 	}
-
-	fnt, err := draw.ReadFont("/usr/share/fonts/opentype/urw-base35/P052-Roman.otf") //fnt := readTestFont()
+	fnt, err := draw.ReadFont("/usr/share/fonts/truetype/ancient-scripts/Symbola_hint.ttf")
+	//fnt := draw.ReadTestFont()
 	if err != nil {
 		panic(err)
 	}

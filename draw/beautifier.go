@@ -40,6 +40,7 @@ type Beautifier interface {
 	Face(size int) font.Face
 }
 
+// TODO: this method is spelled so wrong
 func NewBeutifier(f *opentype.Font) Beautifier {
 	return &BeautifierImpl{f: f}
 }

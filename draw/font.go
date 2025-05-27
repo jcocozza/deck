@@ -23,7 +23,7 @@ func FontFace(font *opentype.Font, size int) (font.Face, error) {
 	)
 }
 
-func readTestFont() *opentype.Font {
+func ReadTestFont() *opentype.Font {
 	f, err := opentype.Parse(fonts.MPlus1pRegular_ttf)
 	if err != nil {
 		panic(err)
