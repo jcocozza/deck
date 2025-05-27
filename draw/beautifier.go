@@ -18,18 +18,18 @@ func Color(t parser.ContentType, level int, theme Theme) color.Color {
 	case parser.Header:
 		switch level {
 		case 1:
-			return theme.Heading
+			return theme.Heading.C
 		case 2:
-			return theme.SubHeading
+			return theme.SubHeading.C
 		default:
-			return theme.SubHeading
+			return theme.SubHeading.C
 		}
 	case parser.File: // syntax highlighting some day
 		fallthrough
 	case parser.List:
 		fallthrough
 	case parser.Text:
-		return theme.Text
+		return theme.Text.C
 	default:
 		panic("invaid content type")
 	}
@@ -105,28 +105,28 @@ func (b *BeautifierImpl) Beautify(text []string, t parser.ContentType, level int
 	case parser.Header:
 		switch level {
 		case 1:
-			defaultCol = theme.Heading
-			size = 18
+			defaultCol = theme.Heading.C
+			size = theme.Heading.Size
 		case 2:
-			defaultCol = theme.SubHeading
-			size = 16
+			defaultCol = theme.SubHeading.C
+			size = theme.SubHeading.Size
 		default:
-			defaultCol = theme.SubHeading
-			size = 16
+			defaultCol = theme.SubHeading.C
+			size = theme.SubHeading.Size
 		}
 	case parser.File: // syntax highlighting some day
 		fallthrough
 	case parser.List:
 		fallthrough
 	case parser.Text:
-		defaultCol = theme.Text
-		size = 14
+		defaultCol = theme.Text.C
+		size = theme.Text.Size
 	default:
-		defaultCol = theme.Text
-		size = 14
+		defaultCol = theme.Text.C
+		size = theme.Text.Size
 	}
 	for _, str := range text {
-		tokens := tokenize(str, regexp_link, theme.Link, defaultCol)
+		tokens := tokenize(str, regexp_link, theme.Link.C, defaultCol)
 		face := b.Face(size)
 		for _, tkn := range tokens {
 			item := &TextImageItem{Text: tkn.Text, Color: tkn.Color, Face: face}

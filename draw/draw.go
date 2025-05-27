@@ -116,7 +116,7 @@ func generateItems(c *parser.Content, b Beautifier, t Theme) []ImageItem {
 
 func (d *DrawerImpl) DrawSlide(width int, height int, s *parser.Content) image.Image {
 	img := image.NewRGBA(image.Rect(0, 0, width, height))
-	fill(img, d.theme.Background)
+	fill(img, d.theme.Background.C)
 
 	xPad := 60
 	xShift := 0

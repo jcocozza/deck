@@ -7,30 +7,35 @@ import (
 	"os"
 )
 
+type Text struct {
+	C color.Color
+	Size int
+}
+
 type Theme struct {
-	Background     color.Color // lt1
-	Foreground     color.Color // dk1
-	Heading        color.Color // dk2 or accent1
-	SubHeading     color.Color // accent2
-	Text           color.Color // dk1
-	CardBackground color.Color // lt2
-	Link           color.Color // hlink
-	VisitedLink    color.Color // folHlink
-	Primary        color.Color // accent1
-	Secondary      color.Color // accent3 or accent5
+	Background     Text // lt1
+	Foreground     Text // dk1
+	Heading        Text // dk2 or accent1
+	SubHeading     Text // accent2
+	Text           Text // dk1
+	CardBackground Text // lt2
+	Link           Text // hlink
+	VisitedLink    Text // folHlink
+	Primary        Text // accent1
+	Secondary      Text // accent3 or accent5
 }
 
 var DefaultTheme = Theme{
-	Background:     color.RGBA{R: 255, G: 255, B: 255, A: 255}, // White (lt1)
-	Foreground:     color.RGBA{R: 0, G: 0, B: 0, A: 255},       // Black (dk1)
-	Heading:        color.RGBA{R: 68, G: 114, B: 196, A: 255},  // Accent1 (blue)
-	SubHeading:     color.RGBA{R: 237, G: 125, B: 49, A: 255},  // Accent2 (orange)
-	Text:           color.RGBA{R: 0, G: 0, B: 0, A: 255},       // Same as Foreground
-	CardBackground: color.RGBA{R: 242, G: 242, B: 242, A: 255}, // Light gray (lt2)
-	Link:           color.RGBA{R: 5, G: 99, B: 193, A: 255},    // Hyperlink blue
-	VisitedLink:    color.RGBA{R: 149, G: 79, B: 114, A: 255},  // Visited purple
-	Primary:        color.RGBA{R: 68, G: 114, B: 196, A: 255},  // Accent1 again
-	Secondary:      color.RGBA{R: 165, G: 165, B: 165, A: 255}, // Neutral gray (accent5-like)
+	Background:     Text{ Size: 14, C: color.RGBA{R: 255, G: 255, B: 255, A: 255} }, // White (lt1)
+	Foreground:     Text{ Size: 14, C: color.RGBA{R: 0, G: 0, B: 0, A: 255} },       // Black (dk1)
+	Heading:        Text{ Size: 18, C: color.RGBA{R: 68, G: 114, B: 196, A: 255} },  // Accent1 (blue)
+	SubHeading:     Text{ Size: 16, C: color.RGBA{R: 237, G: 125, B: 49, A: 255} },  // Accent2 (orange)
+	Text:           Text{ Size: 14, C: color.RGBA{R: 0, G: 0, B: 0, A: 255} },       // Same as Foreground
+	CardBackground: Text{ Size: 14, C: color.RGBA{R: 242, G: 242, B: 242, A: 255} }, // Light gray (lt2)
+	Link:           Text{ Size: 14, C: color.RGBA{R: 5, G: 99, B: 193, A: 255} },    // Hyperlink blue
+	VisitedLink:    Text{ Size: 14, C: color.RGBA{R: 149, G: 79, B: 114, A: 255} },  // Visited purple
+	Primary:        Text{ Size: 14, C: color.RGBA{R: 68, G: 114, B: 196, A: 255} },  // Accent1 again
+	Secondary:      Text{ Size: 14, C: color.RGBA{R: 165, G: 165, B: 165, A: 255} }, // Neutral gray (accent5-like)
 }
 
 
@@ -106,16 +111,16 @@ func ThemeXMLToTheme(t *ThemeXML) (Theme, error) {
 		return Theme{}, err
 	}
 	return Theme{
-		Background:     background,
-		Foreground:     foreground,
-		Heading:        heading,
-		SubHeading:     subheading,
-		Text:           text,
-		CardBackground: cardbackground,
-		Link:           link,
-		VisitedLink:    visitedlink,
-		Primary:        primary,
-		Secondary:      secondary,
+		Background:     Text{ Size: 14, C: background },
+		Foreground:     Text{ Size: 14, C: foreground },
+		Heading:        Text{ Size: 18, C: heading },
+		SubHeading:     Text{ Size: 16, C: subheading },
+		Text:           Text{ Size: 14, C: text },
+		CardBackground: Text{ Size: 14, C: cardbackground },
+		Link:           Text{ Size: 14, C: link },
+		VisitedLink:    Text{ Size: 14, C: visitedlink },
+		Primary:        Text{ Size: 14, C: primary },
+		Secondary:      Text{ Size: 14, C: secondary },
 	}, nil
 }
 
