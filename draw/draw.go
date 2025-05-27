@@ -4,7 +4,7 @@ import (
 	"image"
 	"image/color"
 	"image/draw"
-	"presentation/parser"
+	"github.com/jcocozza/deck/parser"
 
 	"golang.org/x/image/font"
 	"golang.org/x/image/font/opentype"
@@ -41,7 +41,7 @@ func (i *TextImageItem) Draw(img *image.RGBA, x, y int) {
 		Face: i.Face,
 		Dot:  fixed.P(x, y),
 	}
-	d.DrawString(i.Text) // TODO: beautify text
+	d.DrawString(i.Text)
 }
 
 func (i *TextImageItem) Height() int {

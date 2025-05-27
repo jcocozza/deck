@@ -1,4 +1,4 @@
-module presentation
+module github.com/jcocozza/deck
 
 go 1.24.3
 

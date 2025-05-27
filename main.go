@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"presentation/draw"
-	"presentation/parser"
-	"presentation/render"
+	"github.com/jcocozza/deck/draw"
+	"github.com/jcocozza/deck/parser"
+	"github.com/jcocozza/deck/render"
 )
 
 func readInput(r io.Reader) ([]string, error) {

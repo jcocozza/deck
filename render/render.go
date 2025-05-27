@@ -2,8 +2,8 @@ package render
 
 import (
 	"log"
-	"presentation/draw"
-	"presentation/parser"
+	"github.com/jcocozza/deck/draw"
+	"github.com/jcocozza/deck/parser"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"golang.org/x/image/font/opentype"
@@ -89,7 +89,7 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 
 func Render(slides []*parser.Content, theme draw.Theme, font *opentype.Font) {
 	ebiten.SetWindowSize(640, 480)
-	ebiten.SetWindowTitle("TODO: <Think of some cool tool name>")
+	ebiten.SetWindowTitle("deck")
 	g := &Game{
 		Slides: slides,
 		curr: ebiten.NewImage(640,480),

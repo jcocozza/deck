@@ -2,7 +2,7 @@ package draw
 
 import (
 	"image/color"
-	"presentation/parser"
+	"github.com/jcocozza/deck/parser"
 	"regexp"
 
 	"golang.org/x/image/font"

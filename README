@@ -1,17 +1,22 @@
-# <tool name>
+# deck
 Write your presentations as plain text files.
 Each paragraph is its own slide.
 
-<tool name> is inspired by https://tools.suckless.org/sent/.
-It has much of the same basic syntax. But has some more fluff on top.
+deck is inspired by https://tools.suckless.org/sent/.
+It has much of the same basic syntax.
+I just added some more fluff on top.
 
 # Features:
 - works well with markdown files
     - use "# " for headers, "## " for subheaders
 - supports pptx themes and fonts
 - import images, and even other files into your deck (simply reference them with "@" on their own line)
-- relatively robust. will accept most text files (try turing your code into a presentation)
-- pipe in input, read from more then one file at a time.
+- relatively robust.
+    - Although an arbitrary text file might not be condusive to the paragraph <-> slide format, deck can still create presentations out of most text files.
+    - (try turing your code into a presentation)
+- pipe into deck, and read from more then one file at a time
+    - e.g. cat foo.txt | deck
+    - e.g. deck foo.txt bar.txt
 
 # Coming Soon:
 @TODO
