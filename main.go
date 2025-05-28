@@ -5,9 +5,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"github.com/jcocozza/deck/draw"
-	"github.com/jcocozza/deck/parser"
-	"github.com/jcocozza/deck/render"
 )
 
 func readInput(r io.Reader) ([]string, error) {
@@ -48,20 +45,5 @@ func main() {
 		lines = flines
 	}
 
-	theme, err := draw.ReadTheme("ppt/unpacked/ppt/theme/theme1.xml")
-	//theme := draw.DefaultTheme
-	if err != nil {
-		panic(err)
-	}
-	fnt, err := draw.ReadFont("/usr/share/fonts/truetype/ancient-scripts/Symbola_hint.ttf")
-	//fnt := draw.ReadTestFont()
-	if err != nil {
-		panic(err)
-	}
-
-	cnts := parser.Parse(lines)
-	if err != nil {
-		panic(err)
-	}
-	render.Render(cnts, theme, fnt)
+	fmt.Println(lines)
 }
