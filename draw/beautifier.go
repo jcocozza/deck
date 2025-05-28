@@ -98,7 +98,7 @@ func (b *BeautifierImpl) Face(size int) font.Face {
 func (b *BeautifierImpl) Beautify(text []string, t parser.ContentType, level int, theme Theme) []ImageItem {
 	items := []ImageItem{}
 	var defaultCol color.Color
-	var size int // TODO: this needs to be injected somehow
+	var size int
 	switch t {
 	case parser.Paragraph:
 		// nothing happens here, a paragraph should never have text
