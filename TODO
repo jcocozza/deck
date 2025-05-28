@@ -4,6 +4,24 @@ dev work:
 3. rework parser for simplicity; we don't need this whole recursive nonsense
 4. create a clean "slide" data structure.
 
+
+Work:
+1. auto scaling mode (1 font, no formatting) just works
+    - will strip out markers and just draw text/images
+2. pretty mode: actually care about parsing headers etc, but have to manually set font sizes
+
+
+Arch:
+lexer -> parser -> []slide -> draw (regular or pretty) -> render
+
+the parser produces a list of slides
+a list of slides is just a list of typed lines
+- line types: comment, header, subheader, plain, etc
+
+In regular mode, we just draw all the text, centered and scaled
+Pretty mode adds dedicated font sizes and colors to the different line types
+
+TODO:
 - support reading in multiple fonts at once
 - support logo (upper right hand corner)
 - slide numbers (lower right hand corner)

@@ -1,5 +1,6 @@
 # this is a header
 each "slide" is a paragraph
+each line in the file is a line in slide.
 
 ## this is a sub head
 // comments are ignored, because, who needs them?

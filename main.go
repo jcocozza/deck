@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"io"
 	"os"
+
+	"github.com/jcocozza/deck/render"
 )
 
 func readInput(r io.Reader) ([]string, error) {
@@ -45,5 +47,5 @@ func main() {
 		lines = flines
 	}
 
-	fmt.Println(lines)
+	render.Render()
 }
