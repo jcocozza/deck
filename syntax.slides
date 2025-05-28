@@ -1,0 +1,18 @@
+# this is a header
+each "slide" is a paragraph
+
+## this is a sub head
+// comments are ignored, because, who needs them?
+
+### this is a sub-sub header
+
+// perhaps you'd like an empty slide?
+\
+
+# otherwise a slide is just text
+- this is a list
+- but it will be rendered as text
+
+# images
+We can load images into our slides:
+@path/to/image.png
