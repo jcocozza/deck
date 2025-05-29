@@ -15,6 +15,9 @@ import (
 //
 // TODO: we could probably make this a binary search and make it way faster
 func scaleText(maxWidth int, maxHeight int, fnt *opentype.Font, lines []string) (float64, error) {
+	if len(lines) == 0 {
+		return 10, nil
+	}
 	fontSize := 1.0
 	for {
 		face, err := opentype.NewFace(fnt, &opentype.FaceOptions{Size: fontSize, DPI: 72})
@@ -32,7 +35,10 @@ func scaleText(maxWidth int, maxHeight int, fnt *opentype.Font, lines []string) 
 			}
 			totalHeight += lineHeight
 		}
-		face.Close()
+		err = face.Close()
+		if err != nil {
+			return -1 , err
+		}
 		if largestWidth > maxWidth || totalHeight > maxHeight {
 			break
 		}
