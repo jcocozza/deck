@@ -1,13 +1,13 @@
 - write good lexer
+    - for images: support alignment @[l/c/r]:path/to/file
+    - default (just @) is center
 - write good parser
+    - for a centered image, ignore text
 
 - support logo (upper right hand corner)
 - slide numbers (lower right hand corner)
 - add optional auto scale ability
 - write to pptx
-- left, center and right align images should be easy to support
-    - maybe prefix can be @[l/c/r]@path/to/file
-    - but also leave default option of @path/to/file
 - cli
     - allow theme specification (via path)
     - allow font specification (via path)

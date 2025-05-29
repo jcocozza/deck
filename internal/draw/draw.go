@@ -42,6 +42,9 @@ func GenerateSlideImage(s slide.Slide, screenWidth int, screenHeight int, paddin
 			imageOffsetX = pt.X
 		case slide.Bottom, slide.Top:
 			imageOffsetY = pt.Y
+		case slide.Center:
+			imageOffsetX = pt.X
+			imageOffsetY = pt.Y
 		default:
 			panic("invalid state")
 		}
@@ -66,6 +69,10 @@ func GenerateSlideImage(s slide.Slide, screenWidth int, screenHeight int, paddin
 
 	if s.Image != nil {
 		switch s.Image.Position {
+		case slide.Center:
+			imageX := (screenWidth - s.Image.I.Bounds().Dx()) / 2
+			imageY := (screenHeight - s.Image.I.Bounds().Dy()) / 2
+			drawImage(canvas, s.Image.I, imageX, imageY)
 		case slide.Left:
 			// Image on left, text on right
 			imageX := 0

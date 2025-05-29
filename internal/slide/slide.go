@@ -14,6 +14,9 @@ const (
 	Right
 	Bottom
 	Top
+	// NOTE: Any text with the center tag will not be shown
+	// this is enforced at the parser level
+	Center
 )
 
 type Image struct {
@@ -61,6 +64,10 @@ func TestSlides() []Slide {
 	if err != nil {
 		panic(err)
 	}
+	testImgCenter, err := NewImage("test.png", Center)
+	if err != nil {
+		panic(err)
+	}
 	s := []Slide{
 		{Lines: []string{"some", "lines", "of text"}, Image: nil},
 		{Lines: []string{"some lines of text"}, Image: testImgLeft},
@@ -68,6 +75,8 @@ func TestSlides() []Slide {
 		{Lines: []string{"right"}, Image: testImgRight},
 		{Lines: []string{"bottom"}, Image: testImgBottom},
 		{Lines: []string{"top"}, Image: testImgTop},
+		{Lines: []string{"center"}, Image: testImgCenter},
+		{Lines: nil, Image: testImgCenter},
 		{Lines: []string{"list", "1. foo", "2. bar", "3. baz"}, Image: nil},
 	}
 	return s

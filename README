@@ -10,16 +10,13 @@ I just added some more fluff on top.
 - works well with markdown files
     - use "# " for headers, "## " for subheaders
 - supports pptx themes and fonts
-- import images, and even other files into your deck (simply reference them with "@" on their own line)
+- import images into your deck (simply reference them with "@")
 - relatively robust.
     - Although an arbitrary text file might not be condusive to the paragraph <-> slide format, deck can still create presentations out of most text files.
     - (try turing your code into a presentation)
 - pipe into deck, and read from more then one file at a time
     - e.g. cat foo.txt | deck
     - e.g. deck foo.txt bar.txt
-
-# Coming Soon:
-@TODO
 
 # Finally:
 This README is actually a presentation.
