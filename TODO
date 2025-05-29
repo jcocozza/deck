@@ -1,6 +1,8 @@
+- write good lexer
+- write good parser
+
 - support logo (upper right hand corner)
 - slide numbers (lower right hand corner)
-- correctly wrap lines (i think this is a no go- this should be user managed)
 - add optional auto scale ability
 - write to pptx
 - left, center and right align images should be easy to support

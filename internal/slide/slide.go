@@ -68,6 +68,7 @@ func TestSlides() []Slide {
 		{Lines: []string{"right"}, Image: testImgRight},
 		{Lines: []string{"bottom"}, Image: testImgBottom},
 		{Lines: []string{"top"}, Image: testImgTop},
+		{Lines: []string{"list", "1. foo", "2. bar", "3. baz"}, Image: nil},
 	}
 	return s
 }
