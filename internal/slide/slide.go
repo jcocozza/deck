@@ -22,7 +22,7 @@ type Image struct {
 	Position ImgPostion
 }
 
-func NewImage(path string) (*Image, error) {
+func NewImage(path string, postion ImgPostion) (*Image, error) {
 	f, err := os.Open(path)
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func NewImage(path string) (*Image, error) {
 	return &Image{
 		Path: path,
 		I:    img,
-		Position: Right,
+		Position: postion,
 	}, nil
 }
 
@@ -45,14 +45,29 @@ type Slide struct {
 }
 
 func TestSlides() []Slide {
-	testImg, err := NewImage("test.png")
+	testImgLeft, err := NewImage("test.png", Left)
+	if err != nil {
+		panic(err)
+	}
+	testImgRight, err := NewImage("test.png", Right)
+	if err != nil {
+		panic(err)
+	}
+	testImgTop, err := NewImage("test.png", Top)
+	if err != nil {
+		panic(err)
+	}
+	testImgBottom, err := NewImage("test.png", Bottom)
 	if err != nil {
 		panic(err)
 	}
 	s := []Slide{
 		{Lines: []string{"some", "lines", "of text"}, Image: nil},
-		{Lines: []string{"some lines of text"}, Image: testImg},
-		{Lines: nil, Image: testImg},
+		{Lines: []string{"some lines of text"}, Image: testImgLeft},
+		{Lines: []string{"left"}, Image: testImgLeft},
+		{Lines: []string{"right"}, Image: testImgRight},
+		{Lines: []string{"bottom"}, Image: testImgBottom},
+		{Lines: []string{"top"}, Image: testImgTop},
 	}
 	return s
 }
