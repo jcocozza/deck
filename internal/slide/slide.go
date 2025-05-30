@@ -42,9 +42,23 @@ func NewImage(path string, postion ImgPostion) (*Image, error) {
 	}, nil
 }
 
+type SlideLineType int
+
+const (
+	Header SlideLineType = iota
+	Subheader
+	Subsubheader
+	Text
+)
+
+type SlideLine struct {
+	Text string
+	T SlideLineType
+}
+
 type Slide struct {
-	Lines []string
-	Image *Image
+	Lines []SlideLine
+	Image *Image // TODO: generalize to the an aribrary embedded filetype
 }
 
 func TestSlides() []Slide {
@@ -68,16 +82,45 @@ func TestSlides() []Slide {
 	if err != nil {
 		panic(err)
 	}
+
+
+	someLines := []SlideLine{
+		SlideLine{Text: "some", T: Text},
+		SlideLine{Text: "lines", T: Text},
+		SlideLine{Text: "of text", T: Text},
+	}
+
+	left := []SlideLine{
+		SlideLine{Text: "left", T: Text},
+	}
+	right := []SlideLine{
+		SlideLine{Text: "right", T: Text},
+	}
+	bottom := []SlideLine{
+		SlideLine{Text: "bottom", T: Text},
+	}
+	top := []SlideLine{
+		SlideLine{Text: "top", T: Text},
+	}
+	center := []SlideLine{
+		SlideLine{Text: "center", T: Text},
+	}
+	list := []SlideLine{
+		SlideLine{Text: "list", T: Text},
+		SlideLine{Text: "1. foo", T: Text},
+		SlideLine{Text: "2. bar", T: Text},
+		SlideLine{Text: "3. baz", T: Text},
+	}
+
 	s := []Slide{
-		{Lines: []string{"some", "lines", "of text"}, Image: nil},
-		{Lines: []string{"some lines of text"}, Image: testImgLeft},
-		{Lines: []string{"left"}, Image: testImgLeft},
-		{Lines: []string{"right"}, Image: testImgRight},
-		{Lines: []string{"bottom"}, Image: testImgBottom},
-		{Lines: []string{"top"}, Image: testImgTop},
-		{Lines: []string{"center"}, Image: testImgCenter},
+		{Lines: someLines, Image: nil},
+		{Lines: left, Image: testImgLeft},
+		{Lines: right, Image: testImgRight},
+		{Lines: bottom, Image: testImgBottom},
+		{Lines: top, Image: testImgTop},
+		{Lines: center, Image: testImgCenter},
 		{Lines: nil, Image: testImgCenter},
-		{Lines: []string{"list", "1. foo", "2. bar", "3. baz"}, Image: nil},
+		{Lines: list, Image: nil},
 	}
 	return s
 }

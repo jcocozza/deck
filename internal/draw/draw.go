@@ -51,7 +51,12 @@ func GenerateSlideImage(s slide.Slide, screenWidth int, screenHeight int, paddin
 	}
 	maxWidth := screenWidth - 2*paddingX - imageOffsetX
 	maxHeight := screenHeight - 2*paddingY - imageOffsetY
-	fntSize, err := scaleText(maxWidth, maxHeight, fnt, s.Lines)
+
+	strLines := []string{}
+	for _, ln := range s.Lines {
+		strLines = append(strLines, ln.Text)
+	}
+	fntSize, err := scaleText(maxWidth, maxHeight, fnt, strLines)
 	if err != nil {
 		return nil, err
 	}
@@ -108,10 +113,10 @@ func GenerateSlideImage(s slide.Slide, screenWidth int, screenHeight int, paddin
 	}
 	baseline := textStartY + ascent
 	for _, line := range s.Lines {
-		lineWidth := font.MeasureString(face, line).Ceil()
+		lineWidth := font.MeasureString(face, line.Text).Ceil()
 		textAreaWidth := screenWidth - 2*paddingX - imageOffsetX
 		x := textStartX + (textAreaWidth-lineWidth)/2
-		drawText(canvas, face, color.Black, x, baseline, line)
+		drawText(canvas, face, color.Black, x, baseline, line.Text)
 		baseline += txtHeight
 	}
 	return canvas, nil

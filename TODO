@@ -1,5 +1,5 @@
 - write good lexer
-    - for images: support alignment @[l/c/r]:path/to/file
+    - for images: support alignment @[l/r/b/t]:path/to/file
     - default (just @) is center
 - write good parser
     - for a centered image, ignore text
