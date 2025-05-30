@@ -9,6 +9,7 @@ import (
 )
 
 type ImgPostion int
+
 const (
 	Left ImgPostion = iota
 	Right
@@ -20,8 +21,8 @@ const (
 )
 
 type Image struct {
-	Path string
-	I    image.Image
+	Path     string
+	I        image.Image
 	Position ImgPostion
 }
 
@@ -36,8 +37,8 @@ func NewImage(path string, postion ImgPostion) (*Image, error) {
 		return nil, err
 	}
 	return &Image{
-		Path: path,
-		I:    img,
+		Path:     path,
+		I:        img,
 		Position: postion,
 	}, nil
 }
@@ -53,7 +54,7 @@ const (
 
 type SlideLine struct {
 	Text string
-	T SlideLineType
+	T    SlideLineType
 }
 
 type Slide struct {
@@ -82,7 +83,6 @@ func TestSlides() []Slide {
 	if err != nil {
 		panic(err)
 	}
-
 
 	someLines := []SlideLine{
 		SlideLine{Text: "some", T: Text},

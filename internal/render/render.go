@@ -88,11 +88,11 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 	return outsideWidth, outsideHeight
 }
 
-func Render() {
+func Render(slides []slide.Slide) {
 	ebiten.SetWindowSize(640, 480)
 	ebiten.SetWindowTitle("deck")
 	g := &Game{
-		Slides: slide.TestSlides(),
+		Slides: slides,
 		curr:   ebiten.NewImage(640, 480),
 	}
 	if err := ebiten.RunGame(g); err != nil {
