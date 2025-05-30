@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/jcocozza/deck/internal/draw"
 	"github.com/jcocozza/deck/internal/format"
 	"github.com/jcocozza/deck/internal/render"
 	"github.com/jcocozza/deck/internal/utils"
@@ -24,5 +25,6 @@ func main() {
 		fmt.Fprintln(os.Stderr, err.Error())
 	}
 	// slides := slide.TextSlides()
-	render.Render(slides)
+	d := draw.NewDrawer(draw.Auto, draw.DefaultTheme)
+	render.Render(slides, d)
 }

@@ -13,6 +13,8 @@ type Game struct {
 	Slides []slide.Slide
 	curr   *ebiten.Image
 
+	d draw.Drawer
+
 	current int
 	width   int
 	height  int
@@ -65,7 +67,9 @@ func (g *Game) Update() error {
 
 	// only redraw the image if we have changed slides
 	if g.redraw {
-		img, err := draw.GenerateSlideImage(g.Slides[g.current], g.width, g.height, 30, 30, nil)
+		//img, err := draw.GenerateSlideImage(g.Slides[g.current], g.width, g.height, 30, 30, nil)
+		img, err := g.d.DrawSlide(g.Slides[g.current], g.width, g.height, 30, 30, nil)
+
 		if err != nil {
 			return err
 		}
@@ -88,12 +92,13 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 	return outsideWidth, outsideHeight
 }
 
-func Render(slides []slide.Slide) {
+func Render(slides []slide.Slide, drawer draw.Drawer) {
 	ebiten.SetWindowSize(640, 480)
 	ebiten.SetWindowTitle("deck")
 	g := &Game{
 		Slides: slides,
 		curr:   ebiten.NewImage(640, 480),
+		d: drawer,
 	}
 	if err := ebiten.RunGame(g); err != nil {
 		log.Fatal(err)

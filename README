@@ -13,7 +13,8 @@ I just added some more fluff on top.
     - use "# " for headers, "## " for subheaders
 - supports pptx themes and fonts
 - relatively robust.
-    - Although an arbitrary text file might not be condusive to the paragraph <-> slide format, deck can still create presentations out of most text files.
+    - an arbitrary text file might not be condusive to the plain text presentation
+    - deck can still create presentations out of most text files.
     - (try turing your code into a presentation)
 - pipe into deck, and read from more then one file at a time
     - e.g. deck < foo.txt
