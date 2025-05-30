@@ -8,8 +8,6 @@
 
 - support logo (upper right hand corner)
 - slide numbers (lower right hand corner)
-- add optional auto scale ability
-- write to pptx
 - cli
     - allow theme specification (via path)
     - allow font specification (via path)

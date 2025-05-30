@@ -7,6 +7,7 @@ It has much of the same basic syntax.
 I just added some more fluff on top.
 
 # Features:
+- auto scales and auto centers text
 - lists are automatically left aligned
 - works well with markdown files
     - use "# " for headers, "## " for subheaders
@@ -15,14 +16,13 @@ I just added some more fluff on top.
     - Although an arbitrary text file might not be condusive to the paragraph <-> slide format, deck can still create presentations out of most text files.
     - (try turing your code into a presentation)
 - pipe into deck, and read from more then one file at a time
-    - e.g. cat foo.txt | deck
+    - e.g. deck < foo.txt
     - e.g. deck foo.txt bar.txt
 - import images into your deck (simply reference them with "@")
     - images can be aligned @[l/r/t/b]:path/to/image for left right top and bottom respectively.
     - using just @path/to/image will center the image
 
 @test.png
-
 
 # Finally:
 This README is actually a presentation.
