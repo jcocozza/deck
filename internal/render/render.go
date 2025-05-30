@@ -2,31 +2,31 @@ package render
 
 import (
 	"log"
-	"github.com/jcocozza/deck/draw"
-	"github.com/jcocozza/deck/parser"
+
+	"github.com/jcocozza/deck/internal/draw"
+	"github.com/jcocozza/deck/internal/slide"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"golang.org/x/image/font/opentype"
 )
 
-type Game struct{
-	Slides []*parser.Content
-	imgDrawer draw.Drawer
+type Game struct {
+	Slides []slide.Slide
+	curr   *ebiten.Image
 
-	curr *ebiten.Image
+	d draw.Drawer
 
 	current int
-	width int
-	height int
+	width   int
+	height  int
 
-	lastWidth int
+	lastWidth  int
 	lastHeight int
 
 	// keep track if certain things are pressed
 	// the state updates faster then the user can handle and will skip slides
-	fPressed bool
+	fPressed     bool
 	rightPressed bool
-	leftPressed bool
+	leftPressed  bool
 
 	// true if a redraw is needed
 	redraw bool
@@ -48,7 +48,7 @@ func (g *Game) Update() error {
 
 	if rightPressed && !g.rightPressed && g.current < len(g.Slides)-1 {
 		g.current++
-		g.redraw= true
+		g.redraw = true
 
 	}
 	if leftPressed && !g.leftPressed && g.current > 0 {
@@ -67,7 +67,12 @@ func (g *Game) Update() error {
 
 	// only redraw the image if we have changed slides
 	if g.redraw {
-		img := g.imgDrawer.DrawSlide(g.width, g.height, g.Slides[g.current])
+		//img, err := draw.GenerateSlideImage(g.Slides[g.current], g.width, g.height, 30, 30, nil)
+		img, err := g.d.DrawSlide(g.Slides[g.current], g.width, g.height, 30, 30, nil)
+
+		if err != nil {
+			return err
+		}
 		g.curr = ebiten.NewImageFromImage(img)
 		g.redraw = false
 	}
@@ -87,16 +92,15 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 	return outsideWidth, outsideHeight
 }
 
-func Render(slides []*parser.Content, theme draw.Theme, font *opentype.Font) {
+func Render(slides []slide.Slide, drawer draw.Drawer) {
 	ebiten.SetWindowSize(640, 480)
 	ebiten.SetWindowTitle("deck")
 	g := &Game{
 		Slides: slides,
-		curr: ebiten.NewImage(640,480),
-		imgDrawer: draw.NewDrawer(theme, font),
+		curr:   ebiten.NewImage(640, 480),
+		d: drawer,
 	}
 	if err := ebiten.RunGame(g); err != nil {
 		log.Fatal(err)
 	}
 }
-
