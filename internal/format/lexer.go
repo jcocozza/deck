@@ -21,6 +21,7 @@ const (
 	emptyLine    linetype = "emptyLine"
 	emptySlide   linetype = "emptySlide"
 	text         linetype = "text"
+	listItem     linetype = "list-item"
 )
 
 var prefixes = map[linetype]string{
@@ -34,6 +35,33 @@ var prefixes = map[linetype]string{
 	fileBottom:   "@b:",
 	fileTop:      "@t:",
 	emptySlide:   "\\",
+}
+
+// returns true if a line starts with list prefixes
+// list prefixes inlude:
+// -, *, +, and "dotted" digits e.g. `1.`
+func haslstprefix(line string) bool {
+	line = strings.TrimLeftFunc(line, unicode.IsSpace) // this allows for nested lists
+	listPrefixes := []string{
+		"- ", "* ", "+ ",
+	}
+	// Check for unordered list prefixes
+	for _, pre := range listPrefixes {
+		if strings.HasPrefix(line, pre) {
+			return true
+		}
+	}
+	// Check for numbered list like "1. ", "23. "
+	for i, r := range line {
+		if unicode.IsDigit(r) {
+			continue
+		}
+		if r == '.' && i > 0 && i+1 < len(line) && line[i+1] == ' ' {
+			return true
+		}
+		break
+	}
+	return false
 }
 
 type lexline struct {
@@ -86,6 +114,9 @@ func (l *LinesLexer) lexln(line string) lexline {
 
 	case strings.HasPrefix(line, prefixes[emptySlide]):
 		return lexline{t: emptySlide, text: ""}
+
+	case haslstprefix(line):
+		return lexline{t: listItem, text: line} // we don't trim the list prefix because we want to display it
 
 	default:
 		return lexline{t: text, text: line}

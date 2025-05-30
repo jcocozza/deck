@@ -115,7 +115,12 @@ func GenerateSlideImage(s slide.Slide, screenWidth int, screenHeight int, paddin
 	for _, line := range s.Lines {
 		lineWidth := font.MeasureString(face, line.Text).Ceil()
 		textAreaWidth := screenWidth - 2*paddingX - imageOffsetX
-		x := textStartX + (textAreaWidth-lineWidth)/2
+		var x int
+		if line.T == slide.ListItem {
+			x = textStartX
+		} else {
+			x = textStartX + (textAreaWidth-lineWidth)/2
+		}
 		drawText(canvas, face, color.Black, x, baseline, line.Text)
 		baseline += txtHeight
 	}

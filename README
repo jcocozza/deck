@@ -7,6 +7,7 @@ It has much of the same basic syntax.
 I just added some more fluff on top.
 
 # Features:
+- lists are automatically left aligned
 - works well with markdown files
     - use "# " for headers, "## " for subheaders
 - supports pptx themes and fonts
@@ -17,8 +18,11 @@ I just added some more fluff on top.
     - e.g. cat foo.txt | deck
     - e.g. deck foo.txt bar.txt
 - import images into your deck (simply reference them with "@")
+    - images can be aligned @[l/r/t/b]:path/to/image for left right top and bottom respectively.
+    - using just @path/to/image will center the image
 
 @test.png
+
 
 # Finally:
 This README is actually a presentation.

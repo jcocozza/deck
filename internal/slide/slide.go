@@ -49,6 +49,7 @@ const (
 	Header SlideLineType = iota
 	Subheader
 	Subsubheader
+	ListItem
 	Text
 )
 
@@ -107,9 +108,9 @@ func TestSlides() []Slide {
 	}
 	list := []SlideLine{
 		SlideLine{Text: "list", T: Text},
-		SlideLine{Text: "1. foo", T: Text},
-		SlideLine{Text: "2. bar", T: Text},
-		SlideLine{Text: "3. baz", T: Text},
+		SlideLine{Text: "1. foo", T: ListItem},
+		SlideLine{Text: "2. bar", T: ListItem},
+		SlideLine{Text: "3. baz", T: ListItem},
 	}
 
 	s := []Slide{

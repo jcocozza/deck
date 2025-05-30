@@ -44,10 +44,12 @@ func (p *LineParser) Parse(lines []lexline) ([]slide.Slide, error) {
 			slides = append(slides, *curr)
 			curr = nil
 		case emptySlide:
-			slides = append(slides, *curr)
 			curr = nil
 		case text:
 			ln := slide.SlideLine{Text: line.text, T: slide.Text}
+			curr.Lines = append(curr.Lines, ln)
+		case listItem:
+			ln := slide.SlideLine{Text: line.text, T: slide.ListItem}
 			curr.Lines = append(curr.Lines, ln)
 		case fileTop, fileBottom, fileLeft,fileRight, fileCenter:
 			var pos slide.ImgPostion

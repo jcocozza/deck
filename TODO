@@ -4,6 +4,8 @@
 - write good parser
     - for a centered image, ignore text
 
+- lists need to be left aligned
+
 - support logo (upper right hand corner)
 - slide numbers (lower right hand corner)
 - add optional auto scale ability
