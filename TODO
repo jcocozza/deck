@@ -1,17 +1,13 @@
-- write good lexer
-    - for images: support alignment @[l/r/b/t]:path/to/file
-    - default (just @) is center
-- write good parser
-    - for a centered image, ignore text
-
-- lists need to be left aligned
-
-- support logo (upper right hand corner)
-- slide numbers (lower right hand corner)
+- fully flesh out theme config file
 - cli
     - allow theme specification (via path)
     - allow font specification (via path)
+
+- support logo (upper right hand corner)
+- slide numbers (lower right (or left?) hand corner)
 - Terminal mode?
     - support terminal presentations/piping to stdout
 - what to do when nothing passed in
     - i think this should generate an empty slide show with one slide
+
+
