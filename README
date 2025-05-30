@@ -2,19 +2,31 @@
 Write your presentations as plain text files.
 Each paragraph is its own slide.
 
-deck is inspired by https://tools.suckless.org/sent/.
-It has much of the same basic syntax.
-I just added some more fluff on top.
+deck is inspired by https://tools.suckless.org/sent/
+It has much of the same basic syntax
+I just added some more fluff on top
 
 # Features:
-- auto scales and auto centers text
-- lists are automatically left aligned
+- two modes: auto and pretty
+- auto:
+    - scales and centers text (even on resize)
+    - lists are automatically left aligned
+    - one font, one size
+    - optionally colored if specified in theme config
+    - auto mode will look bad if you aren't intentional with your content
+    keeping you from doing stupid presentations
+
+# Features con't
+- pretty:
+    - optionally colored if specified in theme config
+    - size text groups (e.g. headers, subheaders,...) with theme config
+
+# Features con't con't
 - works well with markdown files
     - use "# " for headers, "## " for subheaders
-- supports pptx themes and fonts
 - relatively robust.
     - an arbitrary text file might not be condusive to the plain text presentation
-    - deck can still create presentations out of most text files.
+    - deck can create presentations out of most text files.
     - (try turing your code into a presentation)
 - pipe into deck, and read from more then one file at a time
     - e.g. deck < foo.txt
@@ -22,6 +34,7 @@ I just added some more fluff on top.
 - import images into your deck (simply reference them with "@")
     - images can be aligned @[l/r/t/b]:path/to/image for left right top and bottom respectively.
     - using just @path/to/image will center the image
+    - only 1 image per slide, but can add additional text
 
 @test.png
 

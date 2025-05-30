@@ -25,6 +25,6 @@ func main() {
 		fmt.Fprintln(os.Stderr, err.Error())
 	}
 	// slides := slide.TextSlides()
-	d := draw.NewDrawer(draw.Pretty, draw.DefaultColorTheme)
+	d := draw.NewDrawer(draw.Auto, draw.DefaultColorTheme)
 	render.Render(slides, d)
 }

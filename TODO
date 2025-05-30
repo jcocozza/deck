@@ -1,13 +1,14 @@
 - fully flesh out theme config file
+    - we should still be able to read from pptx config files
 - cli
     - allow theme specification (via path)
     - allow font specification (via path)
 
+- support reading in text files
+    - this will require an abstraction over the image in the slide
 - support logo (upper right hand corner)
 - slide numbers (lower right (or left?) hand corner)
 - Terminal mode?
     - support terminal presentations/piping to stdout
 - what to do when nothing passed in
     - i think this should generate an empty slide show with one slide
-
-
