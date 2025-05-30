@@ -25,10 +25,13 @@ func readFileLines(path string) ([]string, error) {
 	return readInput(f)
 }
 
-func ReadFromStdinOrFiles() ([]string, error) {
+// if len(paths) == 0 or the only arg is "-", read from stdin
+func ReadFromStdinOrFiles(paths []string) ([]string, error) {
 	var lines []string
-	if len(os.Args) > 1 {
-		for _, path := range os.Args[1:] {
+
+	readStdin := len(paths) == 1 && paths[0] == "-"
+	if len(paths) > 0 && !readStdin {
+		for _, path := range paths {
 			lns, err := readFileLines(path)
 			if err != nil {
 				return nil, err

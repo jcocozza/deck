@@ -22,6 +22,7 @@ I just added some more fluff on top
     - size text groups (e.g. headers, subheaders,...) with theme config
 
 # Features con't con't
+- quite simple: only ~1200 lines of code
 - works well with markdown files
     - use "# " for headers, "## " for subheaders
 - relatively robust.

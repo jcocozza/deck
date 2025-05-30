@@ -8,6 +8,10 @@
     - this will require an abstraction over the image in the slide
 - support logo (upper right hand corner)
 - slide numbers (lower right (or left?) hand corner)
+- more color matching:
+    - can we do basic code syntax highlighting?
+    - coloring is out of scope, but we could change format inside ``'s
+
 - Terminal mode?
     - support terminal presentations/piping to stdout
 - what to do when nothing passed in

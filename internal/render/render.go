@@ -1,8 +1,6 @@
 package render
 
 import (
-	"log"
-
 	"github.com/jcocozza/deck/internal/draw"
 	"github.com/jcocozza/deck/internal/slide"
 
@@ -92,7 +90,7 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 	return outsideWidth, outsideHeight
 }
 
-func Render(slides []slide.Slide, drawer draw.Drawer) {
+func Render(slides []slide.Slide, drawer draw.Drawer) error {
 	ebiten.SetWindowSize(640, 480)
 	ebiten.SetWindowTitle("deck")
 	g := &Game{
@@ -101,6 +99,7 @@ func Render(slides []slide.Slide, drawer draw.Drawer) {
 		d: drawer,
 	}
 	if err := ebiten.RunGame(g); err != nil {
-		log.Fatal(err)
+		return err
 	}
+	return nil
 }
