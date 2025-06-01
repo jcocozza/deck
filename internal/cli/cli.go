@@ -18,8 +18,9 @@ type deckcfg struct {
 func flags() ([]string, deckcfg) {
 	theme := flag.String("theme", "", "which theme to use. must be in cfg unless using default options: empty = auto, 'default' = default color scheme")
 	noScale := flag.Bool("no-scale", false, "don't auto scale - respect font sizes set in config")
+
 	// TODO: figure this out
-	_ = flag.String("cfg", "", "config path - will check ~/.drawrc and ~/.config/drawrc by default")
+	// _ = flag.String("cfg", "", "config path - will check ~/.drawrc and ~/.config/drawrc by default")
 
 	flag.Parse()
 
