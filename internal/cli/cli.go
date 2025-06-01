@@ -10,20 +10,32 @@ import (
 )
 
 type deckcfg struct {
-	Pretty bool
-	Theme draw.Theme
+	Colorize bool
+	NoScale  bool
+	Theme    draw.Theme
 }
 
 func flags() ([]string, deckcfg) {
-	pretty := flag.Bool("pretty", false, "use pretty output")
+	theme := flag.String("theme", "", "which theme to use. must be in cfg unless using default options: empty = auto, 'default' = default color scheme")
+	noScale := flag.Bool("no-scale", false, "don't auto scale - respect font sizes set in config")
 	// TODO: figure this out
 	_ = flag.String("cfg", "", "config path - will check ~/.drawrc and ~/.config/drawrc by default")
 
 	flag.Parse()
 
+	var t draw.Theme
+	switch *theme {
+	case "":
+		t = draw.DefaultTheme
+	case "default":
+		t = draw.DefaultColorTheme
+	default:
+		panic("unsupport theme type")
+	}
+
 	return flag.Args(), deckcfg{
-		Pretty: *pretty,
-		Theme: draw.DefaultTheme,
+		NoScale:  *noScale,
+		Theme:    t,
 	}
 }
 
@@ -44,7 +56,7 @@ func Cli() error {
 	}
 
 	var d draw.Drawer
-	if cfg.Pretty {
+	if cfg.NoScale {
 		d = draw.NewDrawer(draw.Pretty, cfg.Theme)
 	} else {
 		d = draw.NewDrawer(draw.Auto, cfg.Theme)
