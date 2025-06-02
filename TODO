@@ -1,5 +1,4 @@
 - fully flesh out theme config file
-    - we should still be able to read from pptx config files
 - cli
     - allow theme specification (via path)
     - allow font specification (via path)

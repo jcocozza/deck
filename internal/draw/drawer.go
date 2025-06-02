@@ -1,7 +1,6 @@
 package draw
 
 import (
-	"fmt"
 	"image"
 	"image/color"
 	"image/draw"
@@ -43,7 +42,6 @@ func scaleText(maxWidth int, maxHeight int, fnt *opentype.Font, lines []string) 
 			break
 		}
 		fontSize++
-		fmt.Println("font size", fontSize)
 	}
 	return fontSize-1, nil
 }

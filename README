@@ -2,32 +2,47 @@
 Write your presentations as plain text files.
 Each paragraph is its own slide.
 
-deck is inspired by https://tools.suckless.org/sent/
-It has much of the same basic syntax
-I just added some more fluff on top
+deck is inspired by https://tools.suckless.org/sent/.
+It reads text files in most of the same way as sent, but I added some fluff on top.
 
 # Features:
-- two modes: auto and pretty
-- auto:
+- two "modes": auto and pretty
+
+# Mode: auto:
+    - this is the default mode
     - scales and centers text (even on resize)
     - lists are automatically left aligned
     - one font, one size
-    - optionally colored if specified in theme config
+    - optionally colored
+        - can use default colors with the `colorize` flag
     - auto mode will look bad if you aren't intentional with your content
-    keeping you from doing stupid presentations
+      keeping you from doing stupid presentations
 
-# Features con't
-- pretty:
+# Mode: pretty:
     - optionally colored if specified in theme config
     - size text groups (e.g. headers, subheaders,...) with theme config
 
-# Features con't con't
+# CLI Basics
+- I kind of lost the plot when i put these flags together
+- they don't quite make sense
+    - the cli will need a rewrite at some point
+- `-theme <theme_name>`: empty or "default" theme will use the defaults
+    - empty: the empty theme will just use black text and white background for everything
+    - "default": the default theme uses some basic coloring
+- `-colorize`: determines the fallback theme when using custom themes
+    - when included, fallback is the the basic coloring scheme
+    - when not included, fallback is just black text on a white background
+- `-no-scale` turns off auto mode and makes deck respect theme sizes
+
+warning: right now any theme config errors fail silently.
+
+# Features con't
 - quite simple: only ~1200 lines of code
 - works well with markdown files
     - use "# " for headers, "## " for subheaders
 - relatively robust.
     - an arbitrary text file might not be condusive to the plain text presentation
-    - deck can create presentations out of most text files.
+    - but, deck can create presentations out of most text files
     - (try turing your code into a presentation)
 - pipe into deck, and read from more then one file at a time
     - e.g. deck < foo.txt
