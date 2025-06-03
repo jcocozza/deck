@@ -52,7 +52,20 @@ warning: right now any theme config errors fail silently.
     - using just @path/to/image will center the image
     - only 1 image per slide, but can add additional text
 
-@test.png
+
+# Left align
+@l:docs/mandelbrot.png
+
+# Right align
+@r:docs/mandelbrot.png
+
+# Top align
+@t:docs/mandelbrot.png
+
+# Bottom align
+@b:docs/mandelbrot.png
+
+@docs/mandelbrot.png
 
 # Finally:
 This README is actually a presentation.
