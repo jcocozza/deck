@@ -23,18 +23,13 @@ It reads text files in most of the same way as sent, but I added some fluff on t
     - size text groups (e.g. headers, subheaders,...) with theme config
 
 # CLI Basics
-- I kind of lost the plot when i put these flags together
-- they don't quite make sense
-    - the cli will need a rewrite at some point
 - `-theme <theme_name>`: empty or "default" theme will use the defaults
     - empty: the empty theme will just use black text and white background for everything
     - "default": the default theme uses some basic coloring
 - `-colorize`: determines the fallback theme when using custom themes
     - when included, fallback is the the basic coloring scheme
     - when not included, fallback is just black text on a white background
-- `-no-scale` turns off auto mode and makes deck respect theme sizes
-
-warning: right now any theme config errors fail silently.
+- `-no-scale`: turns off auto mode and makes deck respect theme sizes
 
 # Features con't
 - quite simple: only ~1200 lines of code

@@ -13,6 +13,11 @@ import (
 	"github.com/jcocozza/deck/internal/utils"
 )
 
+func usage() {
+	fmt.Fprintf(os.Stderr, "usage: %s [flags] [files...] \n", os.Args[0])
+	flag.PrintDefaults()
+}
+
 type deckcfg struct {
 	Colorize bool
 	NoScale  bool
@@ -22,7 +27,7 @@ type deckcfg struct {
 func flags() ([]string, deckcfg) {
 	theme := flag.String("theme", "", "which theme to use. must be in cfg unless using default options: empty = auto, 'default' = default color scheme")
 	noScale := flag.Bool("no-scale", false, "don't auto scale - respect font sizes set in the current theme")
-	colorize := flag.Bool("colorize", false, "this flag will set the default theme to include more colors")
+	colorize := flag.Bool("colorize", false, "fallback to default colors theme (fallback only happens when custom theme is missing parts)")
 
 	flag.Parse()
 
