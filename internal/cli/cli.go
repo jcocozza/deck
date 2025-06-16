@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"os"
@@ -32,36 +33,43 @@ func flags() ([]string, deckcfg) {
 	}
 }
 
-func Cli() error {
-	dir, err := os.UserHomeDir()
-	if err != nil { return err }
-	c, err := conf.ReadConfig(fmt.Sprintf("%s/deckrc.json",dir))
-	if err != nil {
-		return err
+func Cli() {
+	flag.Usage = usage
+	nocfgFound := false
+	c, err := conf.ReadConfig()
+	if errors.Is(err, os.ErrNotExist) {
+		nocfgFound = true
+	} else if err != nil {
+		ExitError(err)
 	}
-	args, cfg := flags()
+	args, cfgArgs := flags()
 	lines, err := utils.ReadFromStdinOrFiles(args)
 	if err != nil {
-		return err
+		ExitError(err)
 	}
 
 	var theme draw.Theme
-	switch cfg.Theme {
+	switch cfgArgs.Theme {
 	case "":
 		theme = draw.DefaultTheme
 	case "default":
 		theme = draw.DefaultColorTheme
 	default:
-		ctheme, ok := c.Themes[cfg.Theme]
-		if !ok {
+		ctheme, ok := c.Themes[cfgArgs.Theme]
+		if !ok || nocfgFound {
+			Warn(fmt.Sprintf("theme %s not found. using default", cfgArgs.Theme))
 			theme = draw.DefaultTheme
 		} else {
-			if cfg.Colorize {
+			if cfgArgs.Colorize {
 				theme, err = conf.LinkTheme(ctheme, draw.DefaultColorTheme)
-				if err != nil { fmt.Println(err.Error())}
+				if err != nil {
+					Warn(fmt.Sprintf("error linking theme %s. %s", cfgArgs.Theme, err.Error()))
+				}
 			} else {
 				theme, err = conf.LinkTheme(ctheme, draw.DefaultTheme)
-				if err != nil { fmt.Println(err.Error())}
+				if err != nil {
+					Warn(fmt.Sprintf("error linking theme %s. %s", cfgArgs.Theme, err.Error()))
+				}
 			}
 		}
 	}
@@ -70,17 +78,19 @@ func Cli() error {
 	parser := format.NewParser()
 
 	lexLines := lexer.Lex(lines)
-	// slides := slide.TextSlides()
 	slides, err := parser.Parse(lexLines)
 	if err != nil {
-		return err
+		ExitError(err)
 	}
 
 	var d draw.Drawer
-	if cfg.NoScale {
+	if cfgArgs.NoScale {
 		d = draw.NewDrawer(draw.Pretty, theme)
 	} else {
 		d = draw.NewDrawer(draw.Auto, theme)
 	}
-	return render.Render(slides, d)
+	err = render.Render(slides, d)
+	if err != nil {
+		ExitError(err)
+	}
 }

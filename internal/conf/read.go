@@ -2,6 +2,7 @@ package conf
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 
 	"github.com/jcocozza/deck/internal/draw"
@@ -12,7 +13,15 @@ type Config struct {
 	Themes map[string]Theme `json:"themes"`
 }
 
-func ReadConfig(path string) (Config, error) {
+const deckrc = "deckrc.json"
+
+func ReadConfig() (Config, error) {
+	dir, err := os.UserHomeDir()
+	if err != nil {
+		return Config{}, err
+	}
+	path := fmt.Sprintf("%s/%s",dir, deckrc)
+
 	cfgBytes, err := os.ReadFile(path)
 	if err != nil {
 		return Config{}, err
