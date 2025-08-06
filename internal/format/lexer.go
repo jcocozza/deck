@@ -117,7 +117,7 @@ func (l *LinesLexer) lexln(line string) lexline {
 	case strings.HasPrefix(line, prefixes[emptySlide]):
 		return lexline{t: emptySlide, text: ""}
 
-	case line == prefixes[block]:
+	case strings.HasPrefix(line, prefixes[block]):
 		return lexline{t: block, text: ""}
 
 	case haslstprefix(line):
