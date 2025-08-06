@@ -36,4 +36,5 @@ type Theme struct {
 	SubSubHeader *themeElement `json:"subSubHeader,omitempty"`
 	Link         *themeElement `json:"link,omitempty"`
 	Default      *themeElement `json:"default,omitempty"`
+	Block        *themeElement `json:"block,omitempty"`
 }

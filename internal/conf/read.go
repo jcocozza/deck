@@ -20,7 +20,7 @@ func ReadConfig() (Config, error) {
 	if err != nil {
 		return Config{}, err
 	}
-	path := fmt.Sprintf("%s/%s",dir, deckrc)
+	path := fmt.Sprintf("%s/%s", dir, deckrc)
 
 	cfgBytes, err := os.ReadFile(path)
 	if err != nil {
@@ -74,6 +74,7 @@ func LinkTheme(t Theme, defaultTheme draw.Theme) (draw.Theme, error) {
 	dt.SubSubHeader, err = linkThemeElement(t.SubSubHeader, defaultTheme.SubSubHeader)
 	dt.Link, err = linkThemeElement(t.Link, defaultTheme.Link)
 	dt.Default, err = linkThemeElement(t.Default, defaultTheme.Default)
+	dt.Block, err = linkThemeElement(t.Block, defaultTheme.Block)
 	if err != nil {
 		return defaultTheme, err
 	}
