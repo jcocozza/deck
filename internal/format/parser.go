@@ -28,7 +28,6 @@ func (p *LineParser) Parse(lines []lexline) ([]slide.Slide, error) {
 			curr = &slide.Slide{}
 		}
 		if inBlock && line.t != block {
-			fmt.Println("found in vblock")
 			ln := slide.SlideLine{Text: line.text, T: slide.Block}
 			curr.Lines = append(curr.Lines, ln)
 			continue
