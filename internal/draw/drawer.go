@@ -57,6 +57,15 @@ func drawText(img *image.RGBA, face font.Face, c color.Color, x int, y int, text
 	d.DrawString(text)
 }
 
+func drawHighlight(img *image.RGBA, highlightColor color.Color, x int, y int, width int, height int) {
+	rect := image.Rect(x, y, x+width, y+height)
+	for py := rect.Min.Y; py < rect.Max.Y; py++ {
+		for px := rect.Min.X; px < rect.Max.X; px++ {
+			img.Set(px, py, highlightColor)
+		}
+	}
+}
+
 func drawImage(canvas draw.Image, img image.Image, x int, y int) {
 	offset := image.Pt(x, y)
 	bounds := img.Bounds().Add(offset)

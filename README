@@ -48,6 +48,14 @@ It reads text files in most of the same way as sent, but I added some fluff on t
     - only 1 image per slide, but can add additional text
 
 
+# Features con't 2 - Blocks
+```
+make a block with backticks (```)
+this might be a nice way to show code
+or other important things
+```
+
+
 # Left align
 @l:docs/mandelbrot.png
 

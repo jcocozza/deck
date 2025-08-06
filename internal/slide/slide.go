@@ -51,6 +51,7 @@ const (
 	Subsubheader
 	ListItem
 	Text
+	Block
 )
 
 type SlideLine struct {

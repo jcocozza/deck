@@ -9,8 +9,9 @@ import (
 )
 
 type ThemeElement struct {
-	Size  int
-	Color color.Color
+	Size      int
+	Color     color.Color
+	Highlight color.Color
 }
 
 type Theme struct {
@@ -20,26 +21,30 @@ type Theme struct {
 	SubSubHeader ThemeElement
 	Link         ThemeElement
 	Default      ThemeElement
+	Block        ThemeElement
 }
 
 // White background, all text is black
 var DefaultTheme = Theme{
-	Background:   color.RGBA{R: 255, G: 255, B: 255, A: 255}, // white
-	Header:       ThemeElement{Size: 18, Color: color.Black},  // blue
-	SubHeader:    ThemeElement{Size: 16, Color: color.Black},  // orange
-	SubSubHeader: ThemeElement{Size: 16, Color: color.Black},  // orange
-	Link:         ThemeElement{Size: 14, Color: color.Black},    // hyperlink blue
-	Default:      ThemeElement{Size: 14, Color: color.Black},       // black
+	Background:   color.RGBA{R: 255, G: 255, B: 255, A: 255},                                          // white
+	Header:       ThemeElement{Size: 18, Color: color.Black, Highlight: color.White},                  // blue
+	SubHeader:    ThemeElement{Size: 16, Color: color.Black, Highlight: color.White},                  // orange
+	SubSubHeader: ThemeElement{Size: 16, Color: color.Black, Highlight: color.White},                  // orange
+	Link:         ThemeElement{Size: 14, Color: color.Black, Highlight: color.White},                  // hyperlink blue
+	Default:      ThemeElement{Size: 14, Color: color.Black, Highlight: color.White},                  // black
+	Block:        ThemeElement{Size: 14, Color: color.Black, Highlight: color.RGBA{40,44,52,1}}, // light gray
 }
 
 // TODO: make this decent; it is dumb right now
 var DefaultColorTheme = Theme{
-	Background:   color.RGBA{R: 255, G: 255, B: 255, A: 255}, // white
-	Header:       ThemeElement{Size: 18, Color: color.RGBA{R: 68, G: 114, B: 196, A: 255}},  // blue
-	SubHeader:    ThemeElement{Size: 16, Color: color.RGBA{R: 237, G: 125, B: 49, A: 255}},  // orange
-	SubSubHeader: ThemeElement{Size: 16, Color: color.RGBA{R: 237, G: 125, B: 49, A: 255}},  // orange
-	Link:         ThemeElement{Size: 14, Color: color.RGBA{R: 5, G: 99, B: 193, A: 255}},    // hyperlink blue
-	Default:      ThemeElement{Size: 14, Color: color.RGBA{R: 0, G: 0, B: 0, A: 255}},       // black
+	Background:   color.RGBA{R: 255, G: 255, B: 255, A: 255},                                                       // white
+	Header:       ThemeElement{Size: 18, Color: color.RGBA{R: 68, G: 114, B: 196, A: 255}, Highlight: color.White}, // blue
+	SubHeader:    ThemeElement{Size: 16, Color: color.RGBA{R: 237, G: 125, B: 49, A: 255}, Highlight: color.White}, // orange
+	SubSubHeader: ThemeElement{Size: 16, Color: color.RGBA{R: 237, G: 125, B: 49, A: 255}, Highlight: color.White}, // orange
+	Link:         ThemeElement{Size: 14, Color: color.RGBA{R: 5, G: 99, B: 193, A: 255}, Highlight: color.White},   // hyperlink blue
+	Default:      ThemeElement{Size: 14, Color: color.RGBA{R: 0, G: 0, B: 0, A: 255}, Highlight: color.White},      // black
+	Block:        ThemeElement{Size: 14, Color: color.Black, Highlight: color.RGBA{40,44,52,1}},              // light gray
+
 }
 
 func (t *Theme) GetElement(ty slide.SlideLineType) ThemeElement {
@@ -50,6 +55,8 @@ func (t *Theme) GetElement(ty slide.SlideLineType) ThemeElement {
 		return t.SubHeader
 	case slide.Subsubheader:
 		return t.SubSubHeader
+	case slide.Block:
+		return t.Block
 	default:
 		return t.Default
 	}
@@ -142,6 +149,8 @@ func tokenizeLine(line string, theme Theme) []prettystring {
 func MakePretty(line slide.SlideLine, theme Theme) []prettystring {
 	switch line.T {
 	case slide.Header, slide.Subheader, slide.Subsubheader:
+		return []prettystring{{Text: line.Text, T: theme.GetElement(line.T)}}
+	case slide.Block:
 		return []prettystring{{Text: line.Text, T: theme.GetElement(line.T)}}
 	default:
 		return tokenizeLine(line.Text, theme)

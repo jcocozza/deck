@@ -21,10 +21,19 @@ func (p *LineParser) Parse(lines []lexline) ([]slide.Slide, error) {
 	var curr *slide.Slide
 	var lastLineType linetype
 
+	var inBlock bool
+
 	for _, line := range lines {
 		if curr == nil {
 			curr = &slide.Slide{}
 		}
+		if inBlock && line.t != block {
+			fmt.Println("found in vblock")
+			ln := slide.SlideLine{Text: line.text, T: slide.Block}
+			curr.Lines = append(curr.Lines, ln)
+			continue
+		}
+
 		switch line.t {
 		case header:
 			ln := slide.SlideLine{Text: line.text, T: slide.Header}
@@ -35,6 +44,8 @@ func (p *LineParser) Parse(lines []lexline) ([]slide.Slide, error) {
 		case subsubheader:
 			ln := slide.SlideLine{Text: line.text, T: slide.Subsubheader}
 			curr.Lines = append(curr.Lines, ln)
+		case block:
+			inBlock = !inBlock
 		case comment:
 			continue // we ignore these
 		case emptyLine:
@@ -51,7 +62,7 @@ func (p *LineParser) Parse(lines []lexline) ([]slide.Slide, error) {
 		case listItem:
 			ln := slide.SlideLine{Text: line.text, T: slide.ListItem}
 			curr.Lines = append(curr.Lines, ln)
-		case fileTop, fileBottom, fileLeft,fileRight, fileCenter:
+		case fileTop, fileBottom, fileLeft, fileRight, fileCenter:
 			var pos slide.ImgPostion
 			switch line.t {
 			case fileTop:

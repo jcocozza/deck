@@ -194,15 +194,23 @@ func (d *AutoDrawer) DrawSlide(s slide.Slide, screenWidth int, screenHeight int,
 		lineWidth := font.MeasureString(face, line.Text).Ceil()
 		textAreaWidth := screenWidth - 2*paddingX - imageOffsetX
 		var x int
-		if line.T == slide.ListItem {
+
+		switch line.T {
+		case slide.ListItem:
 			x = textStartX
-		} else {
+		case slide.Block:
+			x = textStartX
+		default:
 			x = textStartX + (textAreaWidth-lineWidth)/2
 		}
 
 		pretties := MakePretty(line, d.theme)
 		for _, sub := range pretties {
+			if line.T == slide.Block {
+				drawHighlight(canvas, pretties[0].T.Highlight, x, baseline, 100, 10)
+			}
 			drawText(canvas, face, sub.T.Color, x, baseline, sub.Text)
+			//drawTextWithHighlight(canvas, face, sub.T.Color, sub.T.Highlight, x, baseline, sub.Text, )
 			x += font.MeasureString(face, sub.Text).Ceil()
 		}
 		baseline += txtHeight
@@ -238,16 +246,22 @@ func (d *PrettyDrawer) DrawSlide(s slide.Slide, screenWidth int, screenHeight in
 	}
 	y := textStartY
 	for _, line := range s.Lines {
+
 		pretties := MakePretty(line, d.theme)
+
 		x := textStartX
 		maxTxtHeight := 0
 		for _, sub := range pretties {
+			if line.T == slide.Block {
+				drawHighlight(canvas, pretties[0].T.Highlight, x, y, 100, 10)
+			}
 			face, err := opentype.NewFace(fnt, &opentype.FaceOptions{Size: float64(sub.T.Size), DPI: 72})
 			if err != nil {
 				return nil, err
 			}
 			txtHeight := face.Metrics().Height.Ceil()
 			drawText(canvas, face, sub.T.Color, x, y, sub.Text)
+			//drawTextWithHighlight(canvas, face, sub.T.Color, sub.T.Highlight, x, y, sub.Text)
 			x += font.MeasureString(face, sub.Text).Ceil()
 			if txtHeight > maxTxtHeight {
 				maxTxtHeight = txtHeight

@@ -22,6 +22,7 @@ const (
 	emptySlide   linetype = "emptySlide"
 	text         linetype = "text"
 	listItem     linetype = "list-item"
+	block        linetype = "block"
 )
 
 var prefixes = map[linetype]string{
@@ -35,6 +36,7 @@ var prefixes = map[linetype]string{
 	fileBottom:   "@b:",
 	fileTop:      "@t:",
 	emptySlide:   "\\",
+	block:        "```",
 }
 
 // returns true if a line starts with list prefixes
@@ -114,6 +116,9 @@ func (l *LinesLexer) lexln(line string) lexline {
 
 	case strings.HasPrefix(line, prefixes[emptySlide]):
 		return lexline{t: emptySlide, text: ""}
+
+	case line == prefixes[block]:
+		return lexline{t: block, text: ""}
 
 	case haslstprefix(line):
 		return lexline{t: listItem, text: line} // we don't trim the list prefix because we want to display it
