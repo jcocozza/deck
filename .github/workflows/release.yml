@@ -21,9 +21,9 @@ jobs:
           - goos: windows
             goarch: amd64
             runs-on: ubuntu-latest
-          - goos: darwin
-            goarch: amd64
-            runs-on: macos-14
+              # - goos: darwin
+              #   goarch: amd64
+              #   runs-on: macos-14
           - goos: darwin
             goarch: arm64
             runs-on: macos-14
